@@ -14,14 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();
     const centersCollection = db.collection('centers_list');
     const centersListingContainer = document.getElementById('dynamic-centre-cards-listing');
+    const dedicatedMapsContainer = document.getElementById('dedicated-campus-maps-container');
     const LOCAL_STORAGE_KEY = 'centersPageCache';
 
     if (!centersListingContainer) {
         console.error("Error: The container '#dynamic-centre-cards-listing' was not found in centres/index.html.");
-        return;
+        // No return here, as the maps container might still exist
+    }
+    if (!dedicatedMapsContainer) {
+        console.error("Error: The container '#dedicated-campus-maps-container' was not found in centres/index.html.");
     }
 
-    function renderCentersPage(data, container) {
+    function renderCenterListings(data, container) {
+        if (!container) return; // Guard against missing container
         container.innerHTML = ''; // Clear previous content
 
         if (!data || data.length === 0) {
@@ -32,11 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let htmlContent = '';
         data.forEach(center => {
             if (center.name && center.imageUrl && center.description && center.pageUrl) {
-                let mapHtml = '<p style="color: #777; font-size: 0.9em; text-align: center; padding-top: 20px;">Map not available.</p>';
-                if (center.mapEmbedCode && center.mapEmbedCode.trim().startsWith('<iframe')) {
-                    mapHtml = center.mapEmbedCode;
-                }
-
                 htmlContent += `
                     <div class="centre">
                         <div class="centre-image">
@@ -46,9 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h2>${center.name}</h2>
                             <p class="centre-description">${center.description}</p>
                             <a href="${center.pageUrl.startsWith('/') ? '' : '/'}${center.pageUrl}" class="btn">View Details</a>
-                            <div class="centre-map-embed" style="width: 100%; margin-top: 15px; min-height: 200px;">
-                                ${mapHtml}
-                            </div>
+                            <!-- Map embed is removed from here -->
                         </div>
                     </div>
                 `;
@@ -64,13 +62,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function renderDedicatedMaps(data, container) {
+        if (!container) return; // Guard against missing container
+        container.innerHTML = ''; // Clear previous static/cached content
+
+        if (!data || data.length === 0) {
+            // No message needed here usually, or it could be a general "Our Campuses" title if the container is purely for maps
+            return;
+        }
+
+        let mapHtmlContent = '';
+        data.forEach(center => {
+            if (center.name && center.mapEmbedCode && center.mapEmbedCode.trim().startsWith('<iframe')) {
+                mapHtmlContent += `
+                    <div class="campus">
+                        <h2>${center.name} Campus</h2>
+                        ${center.mapEmbedCode}
+                        <!-- Placeholder for other details if needed from CMS in future -->
+                    </div>
+                `;
+            } else {
+                 console.warn(`Map embed code missing or invalid for center: ${center.name}`);
+            }
+        });
+
+        if (mapHtmlContent === '') {
+            container.innerHTML = '<p style="text-align:center; padding: 20px;">Campus map information will be available soon.</p>';
+        } else {
+            container.innerHTML = mapHtmlContent;
+        }
+    }
+
+    function renderAllCenterData(data) {
+        renderCenterListings(data, centersListingContainer);
+        renderDedicatedMaps(data, dedicatedMapsContainer);
+    }
+
     let renderedFromCache = false;
     try {
         const cachedDataString = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (cachedDataString) {
             const cachedData = JSON.parse(cachedDataString);
             if (cachedData && Array.isArray(cachedData)) {
-                renderCentersPage(cachedData, centersListingContainer);
+                renderAllCenterData(cachedData);
                 renderedFromCache = true;
                 console.log(`Loaded ${LOCAL_STORAGE_KEY} from cache.`);
             }
@@ -80,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
 
-    if (!renderedFromCache) {
+    if (!renderedFromCache && centersListingContainer) { // Only show loading in main list if not cached
         // centersListingContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Loading centers...</p>';
     }
 
@@ -96,12 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (currentCacheString !== newFirestoreDataString) {
                 console.log(`Data for ${LOCAL_STORAGE_KEY} has changed or cache was empty/invalid. Rendering from Firestore.`);
-                renderCentersPage(firestoreDataArray, centersListingContainer);
+                renderAllCenterData(firestoreDataArray);
                 localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
                 console.log(`Updated ${LOCAL_STORAGE_KEY} in cache.`);
             } else if (!renderedFromCache) {
                 console.log(`Cache for ${LOCAL_STORAGE_KEY} was not rendered. Rendering current Firestore data.`);
-                renderCentersPage(firestoreDataArray, centersListingContainer);
+                renderAllCenterData(firestoreDataArray);
                 if(!currentCacheString) localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
             } else {
                 console.log(`Data for ${LOCAL_STORAGE_KEY} is unchanged from cache. No UI update needed.`);
@@ -109,10 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error(`Error fetching ${LOCAL_STORAGE_KEY} from Firestore:`, error);
-            if (!renderedFromCache) {
+            if (!renderedFromCache && centersListingContainer) {
                 centersListingContainer.innerHTML = '<p style="color:red; text-align:center; padding: 20px;">Could not load center listings due to an error. Please try again later.</p>';
-            } else {
-                console.warn(`Failed to update ${LOCAL_STORAGE_KEY} from Firestore. Displaying cached version.`);
+            }
+            // Dedicated maps container might also show an error or rely on its default state if cache didn't render for it.
+            if (!renderedFromCache && dedicatedMapsContainer) {
+                 dedicatedMapsContainer.innerHTML = '<p style="color:red; text-align:center; padding: 20px;">Could not load campus maps due to an error.</p>';
+            }
+            if (renderedFromCache) {
+                 console.warn(`Failed to update ${LOCAL_STORAGE_KEY} from Firestore. Displaying cached version.`);
             }
         });
 });
