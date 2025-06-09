@@ -48,6 +48,15 @@
   <script src="/scripts/main.js" defer></script>
   <script src="/scripts/whatsapp.js" defer></script>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <!-- Firebase Configuration -->
+  <script src="../backend/scripts/firebase-config.js"></script>
+  <!-- Must be relative to this HTML file's location -->
+  <!-- Custom loader for this page -->
+  <script src="../frontend/scripts/centers-page-loader.js" defer></script>
+
   <!-- Structured Data for Multiple Campuses -->
   <script type="application/ld+json">
   {
@@ -148,108 +157,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Centres List -->
     <section class="centres-list">
-        <div class="container">
-            <div class="centre">
-                <div class="centre-image">
-                    <img src="https://images.pexels.com/photos/668298/pexels-photo-668298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Chennai Centre" loading="lazy">
-                </div>
-                <div class="centre-details">
-                    <h2>Chennai Centre</h2>
-                    <p class="centre-description">Our flagship centre in Chennai offers state-of-the-art facilities integrated with Apollo Hospitals. Students benefit from direct clinical exposure and mentorship from practicing healthcare professionals.</p>
-                    <div class="centre-info">
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>19, Greams Lane, Thousand Lights, Chennai - 600006, Tamil Nadu</p>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-phone"></i>
-                            <p>+91 44 2829 3333</p>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <p>chennai@apolloalliedhealth.edu</p>
-                        </div>
-                    </div>
-                    <div class="centre-facilities">
-                        <h3>Key Facilities</h3>
-                        <ul>
-                            <li><i class="fas fa-flask"></i> Advanced Simulation Labs</li>
-                            <li><i class="fas fa-laptop-medical"></i> Digital Library</li>
-                            <li><i class="fas fa-procedures"></i> Hospital Integration</li>
-                            <li><i class="fas fa-user-md"></i> Expert Faculty</li>
-                        </ul>
-                    </div>
-                    <a href="chennai" class="btn">View Details</a>
-                </div>
-            </div>
-
-            <div class="centre">
-                <div class="centre-image">
-                    <img src="https://images.pexels.com/photos/1692693/pexels-photo-1692693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Coimbatore Centre" loading="lazy">
-                </div>
-                <div class="centre-details">
-                    <h2>Coimbatore Centre</h2>
-                    <p class="centre-description">Our Coimbatore campus combines modern educational facilities with a serene learning environment. The centre specializes in diagnostic technologies and critical care education.</p>
-                    <div class="centre-info">
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>1056, Avinashi Road, Pappanaickenpalayam, Coimbatore - 641018, Tamil Nadu</p>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-phone"></i>
-                            <p>+91 422 4299 999</p>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <p>coimbatore@apolloalliedhealth.edu</p>
-                        </div>
-                    </div>
-                    <div class="centre-facilities">
-                        <h3>Key Facilities</h3>
-                        <ul>
-                            <li><i class="fas fa-microscope"></i> Research Laboratories</li>
-                            <li><i class="fas fa-book"></i> Extensive Library</li>
-                            <li><i class="fas fa-user-nurse"></i> Skills Training Center</li>
-                            <li><i class="fas fa-dna"></i> Diagnostic Equipment</li>
-                        </ul>
-                    </div>
-                    <a href="coimbatore" class="btn">View Details</a>
-                </div>
-            </div>
-
-            <div class="centre">
-                <div class="centre-image">
-                    <img src="https://images.pexels.com/photos/127873/pexels-photo-127873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Chittoor Centre" loading="lazy">
-                </div>
-                <div class="centre-details">
-                    <h2>Chittoor Centre</h2>
-                    <p class="centre-description">Our newest facility in Chittoor features cutting-edge simulation labs and interdisciplinary learning spaces. The campus is designed to foster innovation and practical skills development.</p>
-                    <div class="centre-info">
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>Apollo Knowledge Park, Murukambattu, Chittoor - 517127, Andhra Pradesh</p>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-phone"></i>
-                            <p>+91 8572 244 399</p>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <p>chittoor@apolloalliedhealth.edu</p>
-                        </div>
-                    </div>
-                    <div class="centre-facilities">
-                        <h3>Key Facilities</h3>
-                        <ul>
-                            <li><i class="fas fa-vr-cardboard"></i> Virtual Reality Training</li>
-                            <li><i class="fas fa-hospital"></i> Mini-Hospital Setup</li>
-                            <li><i class="fas fa-wifi"></i> Smart Classrooms</li>
-                            <li><i class="fas fa-graduation-cap"></i> Career Development Centre</li>
-                        </ul>
-                    </div>
-                    <a href="chittoor" class="btn">View Details</a>
-                </div>
-            </div>
+        <div id="dynamic-centre-cards-listing" class="container">
+            <!-- Centre cards will be dynamically loaded here -->
         </div>
     </section>
 
@@ -270,7 +179,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <!-- Map Section -->
 </div>
-<div class="campus-container">
+<div id="dedicated-campus-maps-container" class="campus-container">
     <div class="campus">
         <h2>Chennai Campus</h2>
         <iframe src="https://www.google.com/maps?q=Apollo+Hospitals+Greams+Road,+Chennai&output=embed" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>

@@ -14,6 +14,22 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null; // Only authenticated users can write
     }
+    match /accreditations_homepage/{accreditationId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /global_connections_homepage/{gcId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /centers_list/{centerId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /homepage_content/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
     // Add rules for other collections if needed for admin panel (e.g., users)
     // match /admins/{userId} {
     //   allow read, write: if request.auth != null && request.auth.uid == userId;

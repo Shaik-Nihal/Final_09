@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Dashboard: User is logged in", user.email);
             loadHeroSlides(); // Load hero slides data
             loadProgramsHeroContent(); // Load programs page hero content
+            loadHpOurProgramsMeta(); // Load Our Programs section meta for homepage
             // loadProgramCards(); // Placeholder for next feature
         } else {
             console.log("Dashboard: User is not logged in. Redirecting to login page.");
@@ -590,14 +591,663 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Homepage "Our Programs" Section Meta Management
+    const hpOurProgramsMetaRef = db.collection('homepage_content').doc('our_programs_section_details');
+    const hpOurProgramsMetaForm = document.getElementById('hp-ourprograms-meta-form');
+    const hpOurProgramsTitleInput = document.getElementById('hp-ourprograms-title');
+    const hpOurProgramsIntroInput = document.getElementById('hp-ourprograms-intro');
+    const hpOurProgramsMetaStatusDiv = document.getElementById('hp-ourprograms-meta-status');
+    const hpOurProgramsMetaSaveButton = document.getElementById('hp-ourprograms-meta-save-button');
+
+    async function loadHpOurProgramsMeta() {
+        if (!hpOurProgramsTitleInput || !hpOurProgramsIntroInput) return;
+        try {
+            const doc = await hpOurProgramsMetaRef.get();
+            if (doc.exists) {
+                const data = doc.data();
+                hpOurProgramsTitleInput.value = data.title || '';
+                hpOurProgramsIntroInput.value = data.introParagraph || '';
+                showMessage(hpOurProgramsMetaStatusDiv, "Content loaded.", true);
+            } else {
+                showMessage(hpOurProgramsMetaStatusDiv, "No existing content. Add new content.", false);
+                hpOurProgramsTitleInput.value = 'Our Programs'; // Default placeholder
+                hpOurProgramsIntroInput.value = '';
+            }
+        } catch (error) {
+            console.error("Error loading Homepage 'Our Programs' meta:", error);
+            showMessage(hpOurProgramsMetaStatusDiv, "Error loading content: " + error.message, false);
+        }
+    }
+
+    if (hpOurProgramsMetaForm) {
+        hpOurProgramsMetaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth.currentUser) {
+                showMessage(hpOurProgramsMetaStatusDiv, "You must be logged in to save.", false);
+                return;
+            }
+
+            const title = hpOurProgramsTitleInput.value.trim();
+            const introParagraph = hpOurProgramsIntroInput.value.trim();
+
+            if (!title || !introParagraph) {
+                showMessage(hpOurProgramsMetaStatusDiv, "Please fill in both title and intro paragraph.", false);
+                return;
+            }
+
+            if(hpOurProgramsMetaSaveButton) hpOurProgramsMetaSaveButton.disabled = true;
+
+            const data = {
+                title,
+                introParagraph,
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await hpOurProgramsMetaRef.set(data, { merge: true });
+                showMessage(hpOurProgramsMetaStatusDiv, "Homepage 'Our Programs' section details saved successfully!", true);
+            } catch (error) {
+                console.error("Error saving Homepage 'Our Programs' meta:", error);
+                showMessage(hpOurProgramsMetaStatusDiv, "Error saving content: " + error.message, false);
+            } finally {
+                if(hpOurProgramsMetaSaveButton) hpOurProgramsMetaSaveButton.disabled = false;
+            }
+        });
+    }
+
      // Initial Load for authenticated users - extended
     auth.onAuthStateChanged((user) => {
         if (user) {
             // ... (other loads like loadHeroSlides, loadProgramsHeroContent)
             loadProgramCards(); // Load program cards data
+            loadAccreditations(); // Load accreditations
         } else {
             // ... (redirect logic)
         }
     });
 
+    // Accreditations Management
+    const accreditationsCollection = db.collection('accreditations_homepage');
+
+    const accreditationsForm = document.getElementById('accreditations-form');
+    const accreditationsFormTitle = document.getElementById('accreditations-form-title');
+    const accreditationDocIdInput = document.getElementById('accreditation-docId');
+    const accreditationNameInput = document.getElementById('accreditation-name');
+    const accreditationLogoUrlInput = document.getElementById('accreditation-logo-url');
+    const accreditationOrderInput = document.getElementById('accreditation-order');
+    const accreditationSaveButton = document.getElementById('accreditation-save-button');
+    const accreditationCancelEditButton = document.getElementById('accreditation-cancel-edit-button');
+    const accreditationsList = document.getElementById('accreditations-list');
+    const accreditationsStatusDiv = document.getElementById('accreditations-status');
+
+    // Show message utility for accreditations
+    function showAccreditationMessage(message, isSuccess = false) {
+        if (!accreditationsStatusDiv) return;
+        accreditationsStatusDiv.textContent = message;
+        accreditationsStatusDiv.className = isSuccess ? 'success-message' : 'error-message';
+        accreditationsStatusDiv.style.display = 'block';
+        setTimeout(() => {
+            accreditationsStatusDiv.style.display = 'none';
+        }, 5000);
+    }
+
+    // Reset Accreditation Form
+    function resetAccreditationForm() {
+        if (accreditationsForm) accreditationsForm.reset();
+        if (accreditationDocIdInput) accreditationDocIdInput.value = '';
+        if (accreditationsFormTitle) accreditationsFormTitle.textContent = 'Add New Accreditation';
+        if (accreditationSaveButton) accreditationSaveButton.textContent = 'Save Accreditation';
+        if (accreditationCancelEditButton) accreditationCancelEditButton.style.display = 'none';
+        if (accreditationLogoUrlInput) accreditationLogoUrlInput.value = '';
+        showAccreditationMessage("", false); // Clear status message
+    }
+
+    // Load Accreditations
+    async function loadAccreditations() {
+        if (!accreditationsList) return;
+        accreditationsList.innerHTML = '<li class="list-item-placeholder">Loading accreditations...</li>';
+
+        try {
+            const snapshot = await accreditationsCollection.orderBy('order', 'asc').get();
+            if (snapshot.empty) {
+                accreditationsList.innerHTML = '<li class="list-item-placeholder">No accreditations found. Add one using the form.</li>';
+                return;
+            }
+
+            accreditationsList.innerHTML = ''; // Clear list
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                const listItem = document.createElement('li');
+                listItem.setAttribute('data-id', doc.id);
+                listItem.innerHTML = `
+                    <div class="accreditation-info">
+                        <h5>${item.name} (Order: ${item.order})</h5>
+                        <p><a href="${item.logoUrl}" target="_blank">View Logo</a></p>
+                        ${item.logoUrl ? `<img src="${item.logoUrl}" alt="${item.name}" style="width: 80px; height: auto; margin-top: 5px; border: 1px solid #eee;">` : ''}
+                    </div>
+                    <div class="accreditation-actions">
+                        <button class="btn btn-sm btn-edit accreditation-edit">Edit</button>
+                        <button class="btn btn-sm btn-danger accreditation-delete">Delete</button>
+                    </div>
+                `;
+                accreditationsList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error("Error loading accreditations:", error);
+            accreditationsList.innerHTML = '<li class="list-item-placeholder error-message">Error loading accreditations.</li>';
+            showAccreditationMessage("Error loading accreditations: " + error.message);
+        }
+    }
+
+    // Handle Accreditation Form Submission
+    if (accreditationsForm) {
+        accreditationsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth.currentUser) {
+                showAccreditationMessage("You must be logged in to manage accreditations.");
+                return;
+            }
+
+            const docId = accreditationDocIdInput.value;
+            const name = accreditationNameInput.value.trim();
+            const logoUrl = accreditationLogoUrlInput.value.trim();
+            const order = parseInt(accreditationOrderInput.value, 10);
+
+            if (!name || !logoUrl || isNaN(order)) {
+                showAccreditationMessage("Please fill in all fields: Name, Logo URL, and Order.");
+                return;
+            }
+
+            if (accreditationSaveButton) {
+                accreditationSaveButton.disabled = true;
+                accreditationSaveButton.textContent = docId ? "Updating..." : "Saving...";
+            }
+            showAccreditationMessage("", false); // Clear previous messages
+
+            const accreditationData = {
+                name,
+                logoUrl,
+                order,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                if (docId) { // Editing existing item
+                    await accreditationsCollection.doc(docId).update(accreditationData);
+                    showAccreditationMessage("Accreditation updated successfully!", true);
+                } else { // Adding new item
+                    accreditationData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await accreditationsCollection.add(accreditationData);
+                    showAccreditationMessage("Accreditation added successfully!", true);
+                }
+                resetAccreditationForm();
+                loadAccreditations();
+            } catch (error) {
+                console.error("Error saving accreditation:", error);
+                showAccreditationMessage("Error saving accreditation: " + error.message);
+            } finally {
+                if (accreditationSaveButton) {
+                    accreditationSaveButton.disabled = false;
+                    accreditationSaveButton.textContent = docId ? "Update Accreditation" : "Save Accreditation";
+                }
+                 if (docId) {
+                    resetAccreditationForm(); // Reset form to "Add New" mode after successful update
+                }
+            }
+        });
+    }
+
+    // Handle Edit/Delete clicks on Accreditations List
+    if (accreditationsList) {
+        accreditationsList.addEventListener('click', async (e) => {
+            const target = e.target;
+            const listItem = target.closest('li');
+            if (!listItem) return;
+            const docId = listItem.getAttribute('data-id');
+
+            if (target.classList.contains('accreditation-edit')) {
+                if (!docId) return;
+                try {
+                    const doc = await accreditationsCollection.doc(docId).get();
+                    if (doc.exists) {
+                        const item = doc.data();
+                        if(accreditationsFormTitle) accreditationsFormTitle.textContent = 'Edit Accreditation';
+                        if(accreditationDocIdInput) accreditationDocIdInput.value = doc.id;
+                        if(accreditationNameInput) accreditationNameInput.value = item.name || '';
+                        if(accreditationLogoUrlInput) accreditationLogoUrlInput.value = item.logoUrl || '';
+                        if(accreditationOrderInput) accreditationOrderInput.value = item.order || 1;
+
+                        if(accreditationSaveButton) accreditationSaveButton.textContent = 'Update Accreditation';
+                        if(accreditationCancelEditButton) accreditationCancelEditButton.style.display = 'inline-block';
+                        if(accreditationsForm) accreditationsForm.scrollIntoView({ behavior: 'smooth' });
+                        showAccreditationMessage("");
+                    } else {
+                         showAccreditationMessage("Accreditation item not found.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching accreditation for edit:", error);
+                    showAccreditationMessage("Error fetching item: " + error.message);
+                }
+            } else if (target.classList.contains('accreditation-delete')) {
+                if (!docId) return;
+                if (confirm('Are you sure you want to delete this accreditation item?')) {
+                    try {
+                        await accreditationsCollection.doc(docId).delete();
+                        showAccreditationMessage("Accreditation item deleted successfully!", true);
+                        loadAccreditations();
+                    } catch (error) {
+                        console.error("Error deleting accreditation item:", error);
+                        showAccreditationMessage("Error deleting item: " + error.message);
+                    }
+                }
+            }
+        });
+    }
+
+    // Handle Accreditation Cancel Edit Button
+    if (accreditationCancelEditButton) {
+        accreditationCancelEditButton.addEventListener('click', () => {
+            resetAccreditationForm();
+        });
+    }
+
+    // Global Connections Management
+    const gcCollection = db.collection('global_connections_homepage');
+
+    const gcForm = document.getElementById('global-connections-form');
+    const gcFormTitle = document.getElementById('gc-form-title');
+    const gcDocIdInput = document.getElementById('gc-docId');
+    const gcNameInput = document.getElementById('gc-name');
+    const gcDescriptionInput = document.getElementById('gc-description');
+    const gcImageUrlInput = document.getElementById('gc-image-url');
+    const gcOrderInput = document.getElementById('gc-order');
+    const gcSaveButton = document.getElementById('gc-save-button');
+    const gcCancelEditButton = document.getElementById('gc-cancel-edit-button');
+    const gcList = document.getElementById('global-connections-list');
+    const gcStatusDiv = document.getElementById('gc-status');
+
+    // Show message utility for Global Connections
+    function showGcMessage(message, isSuccess = false) {
+        if (!gcStatusDiv) return;
+        gcStatusDiv.textContent = message;
+        gcStatusDiv.className = isSuccess ? 'success-message' : 'error-message';
+        gcStatusDiv.style.display = 'block';
+        setTimeout(() => {
+            gcStatusDiv.style.display = 'none';
+        }, 5000);
+    }
+
+    // Reset Global Connection Form
+    function resetGcForm() {
+        if (gcForm) gcForm.reset();
+        if (gcDocIdInput) gcDocIdInput.value = '';
+        if (gcFormTitle) gcFormTitle.textContent = 'Add New Global Connection';
+        if (gcSaveButton) gcSaveButton.textContent = 'Save Connection';
+        if (gcCancelEditButton) gcCancelEditButton.style.display = 'none';
+        showGcMessage("", false); // Clear status message
+    }
+
+    // Load Global Connections
+    async function loadGlobalConnections() {
+        if (!gcList) return;
+        gcList.innerHTML = '<li class="list-item-placeholder">Loading connections...</li>';
+
+        try {
+            const snapshot = await gcCollection.orderBy('order', 'asc').get();
+            if (snapshot.empty) {
+                gcList.innerHTML = '<li class="list-item-placeholder">No global connections found. Add one using the form.</li>';
+                return;
+            }
+
+            gcList.innerHTML = ''; // Clear list
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                const listItem = document.createElement('li');
+                listItem.setAttribute('data-id', doc.id);
+                listItem.innerHTML = `
+                    <div class="gc-info">
+                        <h5>${item.name} (Order: ${item.order})</h5>
+                        <p>${item.description ? item.description.substring(0, 60) + '...' : ''}</p>
+                        ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}" style="width: 100px; height: auto; margin-top: 5px; border: 1px solid #eee;">` : ''}
+                    </div>
+                    <div class="gc-actions">
+                        <button class="btn btn-sm btn-edit gc-edit">Edit</button>
+                        <button class="btn btn-sm btn-danger gc-delete">Delete</button>
+                    </div>
+                `;
+                gcList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error("Error loading global connections:", error);
+            gcList.innerHTML = '<li class="list-item-placeholder error-message">Error loading connections.</li>';
+            showGcMessage("Error loading connections: " + error.message);
+        }
+    }
+
+    // Handle Global Connection Form Submission
+    if (gcForm) {
+        gcForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth.currentUser) {
+                showGcMessage("You must be logged in to manage global connections.");
+                return;
+            }
+
+            const docId = gcDocIdInput.value;
+            const name = gcNameInput.value.trim();
+            const description = gcDescriptionInput.value.trim();
+            const imageUrl = gcImageUrlInput.value.trim();
+            const order = parseInt(gcOrderInput.value, 10);
+
+            if (!name || !description || !imageUrl || isNaN(order)) {
+                showGcMessage("Please fill in all fields: Name, Description, Image URL, and Order.");
+                return;
+            }
+
+            if (gcSaveButton) {
+                gcSaveButton.disabled = true;
+                gcSaveButton.textContent = docId ? "Updating..." : "Saving...";
+            }
+            showGcMessage("", false); // Clear previous messages
+
+            const gcData = {
+                name,
+                description,
+                imageUrl,
+                order,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                if (docId) { // Editing existing item
+                    await gcCollection.doc(docId).update(gcData);
+                    showGcMessage("Global Connection updated successfully!", true);
+                } else { // Adding new item
+                    gcData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await gcCollection.add(gcData);
+                    showGcMessage("Global Connection added successfully!", true);
+                }
+                resetGcForm();
+                loadGlobalConnections();
+            } catch (error) {
+                console.error("Error saving global connection:", error);
+                showGcMessage("Error saving connection: " + error.message);
+            } finally {
+                if (gcSaveButton) {
+                    gcSaveButton.disabled = false;
+                    gcSaveButton.textContent = docId ? "Update Connection" : "Save Connection";
+                }
+                if (docId) {
+                    resetGcForm(); // Reset form to "Add New" mode after successful update
+                }
+            }
+        });
+    }
+
+    // Handle Edit/Delete clicks on Global Connections List
+    if (gcList) {
+        gcList.addEventListener('click', async (e) => {
+            const target = e.target;
+            const listItem = target.closest('li');
+            if (!listItem) return;
+            const docId = listItem.getAttribute('data-id');
+
+            if (target.classList.contains('gc-edit')) {
+                if (!docId) return;
+                try {
+                    const doc = await gcCollection.doc(docId).get();
+                    if (doc.exists) {
+                        const item = doc.data();
+                        if(gcFormTitle) gcFormTitle.textContent = 'Edit Global Connection';
+                        if(gcDocIdInput) gcDocIdInput.value = doc.id;
+                        if(gcNameInput) gcNameInput.value = item.name || '';
+                        if(gcDescriptionInput) gcDescriptionInput.value = item.description || '';
+                        if(gcImageUrlInput) gcImageUrlInput.value = item.imageUrl || '';
+                        if(gcOrderInput) gcOrderInput.value = item.order || 1;
+
+                        if(gcSaveButton) gcSaveButton.textContent = 'Update Connection';
+                        if(gcCancelEditButton) gcCancelEditButton.style.display = 'inline-block';
+                        if(gcForm) gcForm.scrollIntoView({ behavior: 'smooth' });
+                        showGcMessage("");
+                    } else {
+                         showGcMessage("Global Connection item not found.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching global connection for edit:", error);
+                    showGcMessage("Error fetching item: " + error.message);
+                }
+            } else if (target.classList.contains('gc-delete')) {
+                if (!docId) return;
+                if (confirm('Are you sure you want to delete this global connection?')) {
+                    try {
+                        await gcCollection.doc(docId).delete();
+                        showGcMessage("Global Connection deleted successfully!", true);
+                        loadGlobalConnections(); // Refresh the list
+                    } catch (error) {
+                        console.error("Error deleting global connection:", error);
+                        showGcMessage("Error deleting connection: " + error.message);
+                    }
+                }
+            }
+        });
+    }
+
+    // Handle Global Connection Cancel Edit Button
+    if (gcCancelEditButton) {
+        gcCancelEditButton.addEventListener('click', () => {
+            resetGcForm();
+        });
+    }
+
+    // Initial Load for authenticated users - extended
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // ... (other loads like loadHeroSlides, loadProgramsHeroContent)
+            loadProgramCards(); // Load program cards data
+            loadAccreditations(); // Load accreditations
+            loadGlobalConnections(); // Load global connections
+            loadCentersList(); // Load centers list
+            // loadHpOurProgramsMeta(); // Already called in the primary auth check
+        } else {
+            // ... (redirect logic)
+        }
+    });
+
+    // Centers List Management
+    const centersCollection = db.collection('centers_list');
+
+    const centersForm = document.getElementById('centers-form');
+    const centerFormTitle = document.getElementById('center-form-title');
+    const centerDocIdInput = document.getElementById('center-docId');
+    const centerNameInput = document.getElementById('center-name');
+    const centerImageUrlInput = document.getElementById('center-image-url');
+    const centerDescriptionInput = document.getElementById('center-description');
+    const centerPageUrlInput = document.getElementById('center-page-url');
+    const centerMapEmbedCodeInput = document.getElementById('center-map-embed-code');
+    const centerOrderInput = document.getElementById('center-order');
+    const centerSaveButton = document.getElementById('center-save-button');
+    const centerCancelEditButton = document.getElementById('center-cancel-edit-button');
+    const centersList = document.getElementById('centers-list');
+    const centersStatusDiv = document.getElementById('centers-status');
+
+    // Show message utility for Centers
+    function showCenterMessage(message, isSuccess = false) {
+        if (!centersStatusDiv) return;
+        centersStatusDiv.textContent = message;
+        centersStatusDiv.className = isSuccess ? 'success-message' : 'error-message';
+        centersStatusDiv.style.display = 'block';
+        setTimeout(() => {
+            centersStatusDiv.style.display = 'none';
+        }, 5000);
+    }
+
+    // Reset Center Form
+    function resetCenterForm() {
+        if (centersForm) centersForm.reset();
+        if (centerDocIdInput) centerDocIdInput.value = '';
+        if (centerFormTitle) centerFormTitle.textContent = 'Add New Center';
+        if (centerSaveButton) centerSaveButton.textContent = 'Save Center';
+        if (centerCancelEditButton) centerCancelEditButton.style.display = 'none';
+        showCenterMessage("", false);
+    }
+
+    // Load Centers List
+    async function loadCentersList() {
+        if (!centersList) return;
+        centersList.innerHTML = '<li class="list-item-placeholder">Loading centers...</li>';
+
+        try {
+            const snapshot = await centersCollection.orderBy('order', 'asc').get();
+            if (snapshot.empty) {
+                centersList.innerHTML = '<li class="list-item-placeholder">No centers found. Add one using the form.</li>';
+                return;
+            }
+
+            centersList.innerHTML = ''; // Clear list
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                const listItem = document.createElement('li');
+                listItem.setAttribute('data-id', doc.id);
+                listItem.innerHTML = `
+                    <div class="center-info">
+                        <h5>${item.name} (Order: ${item.order})</h5>
+                        <p>${item.description ? item.description.substring(0, 60) + '...' : ''}</p>
+                        <p><small>Page URL: ${item.pageUrl}</small></p>
+                        ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}" style="width: 100px; height: auto; margin-top: 5px; border: 1px solid #eee;">` : ''}
+                    </div>
+                    <div class="center-actions">
+                        <button class="btn btn-sm btn-edit center-edit">Edit</button>
+                        <button class="btn btn-sm btn-danger center-delete">Delete</button>
+                    </div>
+                `;
+                centersList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error("Error loading centers:", error);
+            centersList.innerHTML = '<li class="list-item-placeholder error-message">Error loading centers.</li>';
+            showCenterMessage("Error loading centers: " + error.message);
+        }
+    }
+
+    // Handle Center Form Submission
+    if (centersForm) {
+        centersForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth.currentUser) {
+                showCenterMessage("You must be logged in to manage centers.");
+                return;
+            }
+
+            const docId = centerDocIdInput.value;
+            const name = centerNameInput.value.trim();
+            const imageUrl = centerImageUrlInput.value.trim();
+            const description = centerDescriptionInput.value.trim();
+            const pageUrl = centerPageUrlInput.value.trim();
+            const mapEmbedCode = centerMapEmbedCodeInput.value.trim(); // Get map embed code
+            const order = parseInt(centerOrderInput.value, 10);
+
+            // Map embed code is optional, so not included in this validation check
+            if (!name || !imageUrl || !description || !pageUrl || isNaN(order)) {
+                showCenterMessage("Please fill in all fields: Name, Image URL, Description, Page URL, and Order. Map Embed Code is optional.");
+                return;
+            }
+
+            if (centerSaveButton) {
+                centerSaveButton.disabled = true;
+                centerSaveButton.textContent = docId ? "Updating..." : "Saving...";
+            }
+            showCenterMessage("", false);
+
+            const centerData = {
+                name,
+                imageUrl,
+                description,
+                pageUrl,
+                mapEmbedCode, // Add to data
+                order,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                if (docId) { // Editing existing item
+                    await centersCollection.doc(docId).update(centerData);
+                    showCenterMessage("Center updated successfully!", true);
+                } else { // Adding new item
+                    centerData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await centersCollection.add(centerData);
+                    showCenterMessage("Center added successfully!", true);
+                }
+                resetCenterForm();
+                loadCentersList();
+            } catch (error) {
+                console.error("Error saving center:", error);
+                showCenterMessage("Error saving center: " + error.message);
+            } finally {
+                if (centerSaveButton) {
+                    centerSaveButton.disabled = false;
+                    centerSaveButton.textContent = docId ? "Update Center" : "Save Center";
+                }
+                if (docId) {
+                    resetCenterForm();
+                }
+            }
+        });
+    }
+
+    // Handle Edit/Delete clicks on Centers List
+    if (centersList) {
+        centersList.addEventListener('click', async (e) => {
+            const target = e.target;
+            const listItem = target.closest('li');
+            if (!listItem) return;
+            const docId = listItem.getAttribute('data-id');
+
+            if (target.classList.contains('center-edit')) {
+                if (!docId) return;
+                try {
+                    const doc = await centersCollection.doc(docId).get();
+                    if (doc.exists) {
+                        const item = doc.data();
+                        if(centerFormTitle) centerFormTitle.textContent = 'Edit Center';
+                        if(centerDocIdInput) centerDocIdInput.value = doc.id;
+                        if(centerNameInput) centerNameInput.value = item.name || '';
+                        if(centerImageUrlInput) centerImageUrlInput.value = item.imageUrl || '';
+                        if(centerDescriptionInput) centerDescriptionInput.value = item.description || '';
+                        if(centerPageUrlInput) centerPageUrlInput.value = item.pageUrl || '';
+                        if(centerMapEmbedCodeInput) centerMapEmbedCodeInput.value = item.mapEmbedCode || ''; // Populate map embed code
+                        if(centerOrderInput) centerOrderInput.value = item.order || 1;
+
+                        if(centerSaveButton) centerSaveButton.textContent = 'Update Center';
+                        if(centerCancelEditButton) centerCancelEditButton.style.display = 'inline-block';
+                        if(centersForm) centersForm.scrollIntoView({ behavior: 'smooth' });
+                        showCenterMessage("");
+                    } else {
+                         showCenterMessage("Center item not found.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching center for edit:", error);
+                    showCenterMessage("Error fetching center: " + error.message);
+                }
+            } else if (target.classList.contains('center-delete')) {
+                if (!docId) return;
+                if (confirm('Are you sure you want to delete this center?')) {
+                    try {
+                        await centersCollection.doc(docId).delete();
+                        showCenterMessage("Center deleted successfully!", true);
+                        loadCentersList();
+                    } catch (error) {
+                        console.error("Error deleting center:", error);
+                        showCenterMessage("Error deleting center: " + error.message);
+                    }
+                }
+            }
+        });
+    }
+
+    // Handle Center Cancel Edit Button
+    if (centerCancelEditButton) {
+        centerCancelEditButton.addEventListener('click', () => {
+            resetCenterForm();
+        });
+    }
 });

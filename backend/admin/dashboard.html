@@ -97,6 +97,28 @@
             </div>
         </section>
 
+        <section id="hp-ourprograms-meta-management">
+            <h2>Homepage "Our Programs" Section Details</h2>
+            <p>Manage the title and introductory paragraph for the "Our Programs" section on the homepage.</p>
+            <div class="form-container">
+                <h3>Edit "Our Programs" Section Meta</h3>
+                <form id="hp-ourprograms-meta-form">
+                    <div class="input-group">
+                        <label for="hp-ourprograms-title">Section Title</label>
+                        <input type="text" id="hp-ourprograms-title" name="hpOurProgramsTitle" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="hp-ourprograms-intro">Introductory Paragraph</label>
+                        <textarea id="hp-ourprograms-intro" name="hpOurProgramsIntro" rows="4" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="hp-ourprograms-meta-save-button" class="btn">Save Details</button>
+                    </div>
+                    <div id="hp-ourprograms-meta-status" style="margin-top: 15px;"></div>
+                </form>
+            </div>
+        </section>
+
         <section id="program-cards-management">
             <h2>Program Cards</h2>
             <p>Manage individual program cards displayed on the homepage and programs page.</p>
@@ -152,6 +174,135 @@
                     <ul id="program-cards-list">
                         <!-- Program cards will be dynamically loaded here -->
                         <li class="list-item-placeholder">No program cards found. Add one using the form.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="accreditations-management">
+            <h2>Accreditations & Affiliations Management</h2>
+            <p>Manage accreditation items for the homepage.</p>
+            <div class="form-and-list-container">
+                <div class="form-container">
+                    <h3 id="accreditations-form-title">Add New Accreditation</h3>
+                    <form id="accreditations-form">
+                        <input type="hidden" id="accreditation-docId" name="docId">
+                        <div class="input-group">
+                            <label for="accreditation-name">Name</label>
+                            <input type="text" id="accreditation-name" name="accreditationName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="accreditation-logo-url">Logo URL</label>
+                            <input type="text" id="accreditation-logo-url" name="accreditationLogoUrl" placeholder="https://example.com/logo.png" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="accreditation-order">Order</label>
+                            <input type="number" id="accreditation-order" name="accreditationOrder" min="1" value="1" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="accreditation-save-button" class="btn">Save Accreditation</button>
+                            <button type="button" id="accreditation-cancel-edit-button" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                        </div>
+                        <div id="accreditations-status" style="margin-top: 15px;"></div>
+                    </form>
+                </div>
+                <div class="list-container">
+                    <h3>Existing Accreditations</h3>
+                    <ul id="accreditations-list">
+                        <!-- Accreditations will be dynamically loaded here -->
+                        <li class="list-item-placeholder">No accreditations found. Add one using the form.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="global-connections-management">
+            <h2>Global Connections Management</h2>
+            <p>Manage global connection/partnership items for the homepage.</p>
+            <div class="form-and-list-container">
+                <div class="form-container">
+                    <h3 id="gc-form-title">Add New Global Connection</h3>
+                    <form id="global-connections-form">
+                        <input type="hidden" id="gc-docId" name="docId">
+                        <div class="input-group">
+                            <label for="gc-name">Name</label>
+                            <input type="text" id="gc-name" name="gcName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="gc-description">Description</label>
+                            <textarea id="gc-description" name="gcDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="gc-image-url">Image URL</label>
+                            <input type="text" id="gc-image-url" name="gcImageUrl" placeholder="https://example.com/image.jpg" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="gc-order">Order</label>
+                            <input type="number" id="gc-order" name="gcOrder" min="1" value="1" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="gc-save-button" class="btn">Save Connection</button>
+                            <button type="button" id="gc-cancel-edit-button" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                        </div>
+                        <div id="gc-status" style="margin-top: 15px;"></div>
+                    </form>
+                </div>
+                <div class="list-container">
+                    <h3>Existing Global Connections</h3>
+                    <ul id="global-connections-list">
+                        <!-- Global Connections will be dynamically loaded here -->
+                        <li class="list-item-placeholder">No connections found. Add one using the form.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="centers-list-management">
+            <h2>Centers List Management</h2>
+            <p>Manage the list of centers for the homepage and centers listing page.</p>
+            <div class="form-and-list-container">
+                <div class="form-container">
+                    <h3 id="center-form-title">Add New Center</h3>
+                    <form id="centers-form">
+                        <input type="hidden" id="center-docId" name="docId">
+                        <div class="input-group">
+                            <label for="center-name">Center Name</label>
+                            <input type="text" id="center-name" name="centerName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="center-image-url">Image URL</label>
+                            <input type="text" id="center-image-url" name="centerImageUrl" placeholder="https://example.com/center.jpg" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="center-description">Description</label>
+                            <textarea id="center-description" name="centerDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="center-page-url">Page URL</label>
+                            <input type="text" id="center-page-url" name="centerPageUrl" placeholder="centres/chennai/" required>
+                            <small>Relative URL to the center's detail page (e.g., centres/chennai/ or centres/chennai/index.html)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="center-map-embed-code">Map Embed Code (iframe)</label>
+                            <textarea id="center-map-embed-code" name="mapEmbedCode" rows="4"></textarea>
+                            <small>Paste the full iframe code from Google Maps (Share > Embed a map).</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="center-order">Order</label>
+                            <input type="number" id="center-order" name="centerOrder" min="1" value="1" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="center-save-button" class="btn">Save Center</button>
+                            <button type="button" id="center-cancel-edit-button" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                        </div>
+                        <div id="centers-status" style="margin-top: 15px;"></div>
+                    </form>
+                </div>
+                <div class="list-container">
+                    <h3>Existing Centers</h3>
+                    <ul id="centers-list">
+                        <!-- Centers will be dynamically loaded here -->
+                        <li class="list-item-placeholder">No centers found. Add one using the form.</li>
                     </ul>
                 </div>
             </div>
