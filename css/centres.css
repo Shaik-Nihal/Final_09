@@ -1,0 +1,441 @@
+/* 
+===============================
+    Centres Page Styles
+===============================
+/* Header */
+* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    -webkit-text-fill-color: #FFFFFF;
+    padding: 2rem 0; /* Increase padding for more height */
+    height: auto; /* Optional: Set height to auto if padding is used */
+}
+
+
+header.scrolled {
+    background-color: var(--white); /* Replace this with your desired color */
+    opacity: 90%;
+    -webkit-text-fill-color: #000000;
+    color: #FFFFFF; /* Adjust text color for visibility */
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+}
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%; /* Ensure content aligns properly */
+}
+
+@media (max-width: 1024px) {
+    header {
+        color: var(--black);
+        -webkit-text-fill-color: var(--black);
+    }
+
+    header.scrolled {
+        color: var(--black);
+        -webkit-text-fill-color: var(--black);
+    }
+
+    nav ul li a {
+        color: var(--black);
+    }
+
+    nav ul li a:hover {
+        color: var(--primary-dark);
+    }
+}
+
+
+/* Program Hero Section */
+.page-hero {
+    position: relative;
+    height: 60vh;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://img.freepik.com/premium-photo/road-passing-through-city-against-sky_1048944-30434419.jpg?w=1060') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.page-hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.page-hero p {
+    font-size: 1.8rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Centres List Section */
+.centres-list {
+    padding: 6rem 0;
+    background-color: var(--gray-lightest);
+}
+
+.centre {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3.2rem;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 3.2rem;
+    transition: var(--transition);
+}
+
+.centre:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.centre-image {
+    height: 100%;
+}
+
+.centre-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.centre-details {
+    padding: 2.4rem;
+}
+
+.centre-details h2 {
+    margin-bottom: 1.2rem;
+    color: var(--primary);
+}
+
+.centre-description {
+    margin-bottom: 2.4rem;
+    color: var(--gray);
+}
+
+.centre-info {
+    margin-bottom: 2.4rem;
+}
+
+.info-item {
+    display: flex;
+    margin-bottom: 1.2rem;
+}
+
+.info-item i {
+    color: var(--primary);
+    margin-right: 1.2rem;
+    font-size: 1.8rem;
+    min-width: 2.4rem;
+    text-align: center;
+}
+
+.centre-facilities {
+    margin-bottom: 2.4rem;
+}
+
+.centre-facilities h3 {
+    margin-bottom: 1.2rem;
+    font-size: 1.8rem;
+}
+
+.centre-facilities ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    list-style: none;
+}
+
+.centre-facilities li {
+    display: flex;
+    align-items: center;
+}
+
+.centre-facilities li i {
+    color: var(--primary);
+    margin-right: 0.8rem;
+}
+.campus-container {
+    margin: 50px 0; /* Adds spacing above and below the map section */
+}
+
+/* Map Section */
+.centre-locations {
+    padding: 6rem 0;
+    background-color: var(--white);
+}
+
+.centre-locations h2 {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.map-container {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+/* Enquiry CTA Section */
+.enquiry-cta {
+    background-color: var(--primary-light);
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    margin-bottom: 1.6rem;
+}
+
+.cta-content p {
+    margin-bottom: 2.4rem;
+    font-size: 1.8rem;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.6rem;
+}
+
+/* Centre Detail Page (for individual centre pages) */
+.centre-detail {
+    padding: 6rem 0;
+}
+
+.centre-header {
+    margin-bottom: 4rem;
+}
+
+.centre-hero {
+    position: relative;
+    height: 40rem;
+    margin-bottom: 2.4rem;
+}
+
+.centre-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+.centre-hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.4rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: var(--white);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.centre-hero-content h1 {
+    color: var(--white);
+    margin-bottom: 0.8rem;
+}
+
+.centre-overview {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}
+
+.centre-about h2 {
+    margin-bottom: 2rem;
+}
+
+.centre-about p {
+    margin-bottom: 1.6rem;
+}
+
+.centre-sidebar {
+    background-color: var(--gray-lightest);
+    padding: 2.4rem;
+    border-radius: var(--border-radius);
+    align-self: start;
+}
+
+.centre-sidebar h3 {
+    margin-bottom: 1.6rem;
+    font-size: 2rem;
+}
+
+.facility-list {
+    margin-bottom: 2.4rem;
+}
+
+.facility-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.facility-item i {
+    color: var(--primary);
+    margin-right: 1.2rem;
+    width: 2.4rem;
+    text-align: center;
+}
+
+/* Map Section */
+.campus-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.campus {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex: 1 1 300px;
+    max-width: 400px;
+    transition: transform 0.3s ease;
+}
+
+.campus:hover {
+    transform: translateY(-5px);
+}
+
+.campus h2 {
+    font-size: 24px;
+    color: #00796b;
+    margin-bottom: 15px;
+}
+
+.campus p {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}
+
+
+/* Photo Gallery */
+.centre-gallery {
+    margin-top: 4rem;
+}
+
+.centre-gallery h2 {
+    margin-bottom: 2.4rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    gap: 1.6rem;
+}
+
+.gallery-item {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: 20rem;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .centre {
+        grid-template-columns: 1fr;
+    }
+    .program-header img {
+        height: 20rem;
+    }
+    header {
+        -webkit-text-fill-color: #000000; /* Change text color to black for visibility */
+        color: #000000;
+    }
+    .requirement {
+        padding: 1.6rem;
+    }    
+    .centre-image {
+        height: 30rem;
+    }
+    
+    .centre-overview {
+        grid-template-columns: 1fr;
+        gap: 2.4rem;
+    }
+    
+    .centre-hero {
+        height: 30rem;
+    }
+    
+    .centre-facilities ul {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1024px) {
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    }
+    
+    .centre-hero-content {
+        padding: 1.6rem;
+    }
+    
+    .centre-hero-content h1 {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .centre-image {
+        height: 20rem;
+    }
+    
+    .centre-hero {
+        height: 20rem;
+    }
+    
+    .centre-sidebar {
+        padding: 1.6rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Apollo Knowledge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <button id="logout-button" class="btn btn-danger">Logout</button>
+        </div>
+    </header>
+
+    <main class="container dashboard-main">
+        <section id="hero-section-management">
+            <h2>Hero Section Slides</h2>
+            <p>Manage slides for the homepage hero carousel.</p>
+
+            <div class="form-and-list-container">
+                <div class="form-container hero-form-container">
+                    <h3 id="hero-form-title">Add New Hero Slide</h3>
+                    <form id="hero-form">
+                        <input type="hidden" id="hero-slideId" name="slideId">
+
+                        <div class="input-group">
+                            <label for="hero-heading">Heading</label>
+                            <input type="text" id="hero-heading" name="heading" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="hero-paragraph">Paragraph</label>
+                            <textarea id="hero-paragraph" name="paragraph" rows="3" required></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="hero-button-text">Button Text</label>
+                            <input type="text" id="hero-button-text" name="buttonText" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="hero-button-url">Button URL</label>
+                            <input type="text" id="hero-button-url" name="buttonUrl" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="hero-order">Order</label>
+                            <input type="number" id="hero-order" name="order" min="1" value="1" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="hero-image-url">Slide Image URL</label>
+                            <input type="text" id="hero-image-url" name="heroImageUrl" placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                            <small>Enter the full URL of the image. Ensure the image is hosted and publicly accessible.</small>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" id="hero-save-button" class="btn">Save Slide</button>
+                            <button type="button" id="hero-cancel-edit-button" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                        </div>
+                         <p id="hero-form-error" class="error-message" style="display: none;"></p>
+                         <p id="hero-form-success" class="success-message" style="display: none;"></p>
+                    </form>
+                </div>
+
+                <div class="list-container hero-list-container">
+                    <h3>Existing Hero Slides</h3>
+                    <ul id="hero-slides-list">
+                        <!-- Slides will be dynamically loaded here -->
+                        <li class="list-item-placeholder">No slides found. Add one using the form.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs-hero-management">
+            <h2>Programs Page Hero</h2>
+            <p>Manage the hero title and paragraph for the main programs page.</p>
+            <div class="form-container programs-hero-form-container">
+                 <h3>Edit Programs Page Hero</h3>
+                <form id="programs-hero-form">
+                    <div class="input-group">
+                        <label for="programs-hero-title">Hero Title</label>
+                        <input type="text" id="programs-hero-title" name="programsHeroTitle" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="programs-hero-paragraph">Hero Paragraph</label>
+                        <textarea id="programs-hero-paragraph" name="programsHeroParagraph" rows="4" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="save-programs-hero-button" class="btn">Save Programs Hero</button>
+                    </div>
+                    <div id="programs-hero-status" style="margin-top: 15px;"></div>
+                </form>
+            </div>
+        </section>
+
+        <section id="program-cards-management">
+            <h2>Program Cards</h2>
+            <p>Manage individual program cards displayed on the homepage and programs page.</p>
+
+            <div class="form-and-list-container">
+                <div class="form-container program-card-form-container">
+                    <h3 id="program-card-form-title">Add New Program Card</h3>
+                    <form id="program-card-form">
+                        <input type="hidden" id="program-cardId" name="cardId">
+
+                        <div class="input-group">
+                            <label for="program-title">Program Title</label>
+                            <input type="text" id="program-title" name="title" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="program-description">Description</label>
+                            <textarea id="program-description" name="description" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="program-duration">Program Duration (e.g., "3 Years", "6 Months")</label>
+                            <input type="text" id="program-duration" name="duration" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="program-link-url">"Learn More" Link URL (e.g., programs/program-name.html)</label>
+                            <input type="text" id="program-link-url" name="linkUrl" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="program-order">Display Order</label>
+                            <input type="number" id="program-order" name="order" min="1" value="1" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="program-image-url">Card Image URL</label>
+                            <input type="text" id="program-image-url" name="programImageUrl" placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                            <small>Enter the full URL of the image. Ensure the image is hosted and publicly accessible.</small>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" id="program-card-save-button" class="btn">Save Program Card</button>
+                            <button type="button" id="program-card-cancel-edit-button" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                        </div>
+                         <p id="program-card-form-error" class="error-message" style="display: none;"></p>
+                         <p id="program-card-form-success" class="success-message" style="display: none;"></p>
+                    </form>
+                </div>
+
+                <div class="list-container program-card-list-container">
+                    <h3>Existing Program Cards</h3>
+                    <ul id="program-cards-list">
+                        <!-- Program cards will be dynamically loaded here -->
+                        <li class="list-item-placeholder">No program cards found. Add one using the form.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <!-- Firebase Configuration -->
+    <!-- <script src="/backend/scripts/firebase-config.js"></script> -->
+    <script src="../scripts/firebase-config.js"></script>
+    <!-- Admin Dashboard Script -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

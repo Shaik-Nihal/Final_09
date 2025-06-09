@@ -1,0 +1,413 @@
+/* 
+===============================
+    Programs Page Styles
+===============================
+*/
+/* Header */
+* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    -webkit-text-fill-color: #FFFFFF;
+    padding: 2rem 0; /* Increase padding for more height */
+    height: auto; /* Optional: Set height to auto if padding is used */
+}
+
+
+header.scrolled {
+    background-color: var(--white); /* Replace this with your desired color */
+    opacity: 90%;
+    -webkit-text-fill-color: #000000;
+    color: #FFFFFF; /* Adjust text color for visibility */
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+}
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%; /* Ensure content aligns properly */
+}
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1024px) {
+    header {
+        color: var(--black);
+        -webkit-text-fill-color: var(--black);
+    }
+
+    header.scrolled {
+        color: var(--black);
+        -webkit-text-fill-color: var(--black);
+    }
+
+    nav ul li a {
+        color: var(--black);
+    }
+
+    nav ul li a:hover {
+        color: var(--primary-dark);
+    }
+}
+
+/* Program Hero Section */
+.page-hero {
+    position: relative;
+    height: 60vh;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504813184591-01572f98c85f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVkaWNhbCUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.page-hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.page-hero p {
+    font-size: 1.8rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Programs List Section */
+.programs-list {
+    padding: 6rem 0;
+    background-color: var(--gray-lightest);
+    text-align: center;
+}
+
+.programs-list h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.program-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    gap: 2.4rem;
+}
+
+.program-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.program-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.program-card img {
+    width: 100%;
+    height: 18rem;
+    object-fit: cover;
+}
+
+.program-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.program-card h3 {
+    margin-bottom: 1.2rem;
+    font-size: 2.2rem;
+    color: var(--primary-dark);
+}
+
+.program-card p {
+    color: var(--gray-dark);
+    margin-bottom: 2rem;
+    flex-grow: 1;
+    line-height: 1.6;
+}
+
+.program-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    border-top: 1px solid var(--gray-light);
+    padding-top: 1rem;
+}
+
+.duration {
+    color: var(--primary);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+}
+
+.duration i {
+    margin-right: 0.6rem;
+    font-size: 1.6rem;
+}
+
+.enroll-btn {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 0.8rem 1.6rem;
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-btn:hover {
+    background-color: var(--primary-dark);
+    cursor: pointer;
+}
+
+/* Enquiry CTA Section */
+.enquiry-cta {
+    background-color: var(--primary-light);
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    margin-bottom: 1.6rem;
+}
+
+.cta-content p {
+    margin-bottom: 2.4rem;
+    font-size: 1.8rem;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.6rem;
+}
+
+/* Program Detail Page (For individual program pages) */
+.program-detail {
+    padding: 6rem 0;
+}
+
+.program-header {
+    margin-bottom: 4rem;
+}
+
+.program-header img {
+    width: 100%;
+    height: 40rem;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 2.4rem;
+}
+
+.program-overview {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.program-description h2 {
+    margin-bottom: 2rem;
+}
+
+.program-description p {
+    margin-bottom: 1.6rem;
+}
+
+.program-meta {
+    background-color: var(--gray-lightest);
+    padding: 2.4rem;
+    border-radius: var(--border-radius);
+}
+
+.program-meta h3 {
+    margin-bottom: 1.6rem;
+    font-size: 2rem;
+}
+
+.meta-list {
+    list-style: none;
+}
+
+.meta-list li {
+    display: flex;
+    margin-bottom: 1.2rem;
+    align-items: center;
+}
+
+.meta-list li i {
+    color: var(--primary);
+    margin-right: 1.2rem;
+    font-size: 1.8rem;
+    width: 2.4rem;
+    text-align: center;
+}
+
+.program-details {
+    margin-bottom: 4rem;
+}
+
+.curriculum h3 {
+    margin-bottom: 1.6rem;
+}
+
+.curriculum-list {
+    list-style: none;
+}
+
+.year-container {
+    margin-bottom: 2.4rem;
+}
+
+.year-heading {
+    padding: 1.2rem 1.6rem;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius);
+    margin-bottom: 1.6rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.subject-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1.6rem;
+    padding: 0 1.6rem;
+}
+
+.subject-item {
+    background-color: var(--gray-lightest);
+    padding: 1.2rem 1.6rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.subject-item:hover {
+    background-color: var(--primary-light);
+}
+
+/* Careers Section */
+.career-prospects {
+    background-color: var(--gray-lightest);
+    padding: 4rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 4rem;
+}
+
+.career-prospects h3 {
+    margin-bottom: 2rem;
+}
+
+.career-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 2rem;
+}
+
+.career-item {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.career-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.career-item i {
+    font-size: 3.2rem;
+    color: var(--primary);
+    margin-bottom: 1.2rem;
+}
+
+.career-item h4 {
+    margin-bottom: 0.8rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .program-grid {
+        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    }
+    
+    .program-overview {
+        grid-template-columns: 1fr;
+        gap: 2.4rem;
+    }
+    
+    .program-header img {
+        height: 30rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .program-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .subject-list, .career-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1024px) {
+    .program-header img {
+        height: 20rem;
+    }
+    
+    .career-prospects, .program-meta {
+        padding: 1.6rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    header {
+        -webkit-text-fill-color: #000000; /* Ensure menu bar items are always black on mobile */
+        color: #000000;
+    }
+}

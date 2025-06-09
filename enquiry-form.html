@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enquiry Form</title>
+  <link rel="stylesheet" href="css/enquiry-form.css">
+        <link rel="icon" href="/frontend/images/favicon-apkn.png" type="image/png">
+  <script src="scripts/enquiry-widget.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      background: #f9f9f9;
+    }
+    .contact-form {
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .contact-form h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+    }
+    .form-submit {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .btn {
+      background-color: #007bff;
+      color: #fff;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+    
+  <div class="contact-form">
+    <h2>Enquiry Form</h2>
+    <p>Fill out this form and our team will get back to you within 24 hours.</p>
+
+    <form id="enquiry-form" method="post" action="#">
+      <div class="form-group">
+        <label for="name">Full Name*</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number*</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address*</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="program">Program of Interest*</label>
+        <select id="program" name="program" required>
+          <option value="">Select a Program</option>
+          <option value="mba-health-service-management">MBA – Health Service Management</option>
+          <option value="bsc-physician-assistant">B.Sc Physician Assistant</option>
+          <option value="bsc-operation-theatre">B.Sc Operation Theatre & Anaesthesia Technology</option>
+          <option value="bsc-radiotherapy">B.Sc Radiotherapy Technology</option>
+          <option value="bsc-critical-care">B.Sc Critical Care Technology</option>
+          <option value="bsc-nuclear-medicine">B.Sc Nuclear Medicine Technology</option>
+          <option value="bsc-dialysis">B.Sc Dialysis Technology</option>
+          <option value="bsc-medical-laboratory">B.Sc Medical Laboratory Technology</option>
+          <option value="bsc-health-psychology">B.Sc Health Psychology</option>
+          <option value="bsc-medical-imaging">B.Sc Medical Imaging Technology</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="city">Preferred Centre*</label>
+        <select id="city" name="city" required>
+          <option value="">Select a Centre</option>
+          <option value="chennai">Chennai</option>
+          <option value="coimbatore">Coimbatore</option>
+          <option value="chittoor">Chittoor</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="how-heard">How did you hear about us?</label>
+        <select id="how-heard" name="how-heard">
+          <option value="">Select an option</option>
+          <option value="search">Google Search</option>
+          <option value="social-media">Social Media</option>
+          <option value="friend">Friend or Family</option>
+          <option value="school">School Counselor</option>
+          <option value="event">Education Fair</option>
+          <option value="advertisement">Advertisement</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="consent" name="consent" required>
+        <label for="consent">I consent to Apollo Allied Health Centres processing my personal data in accordance with their privacy policy.*</label>
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn">Submit Enquiry</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Optional: Add script for form validation or Meritto API -->
+  <script>
+    // Example: intercept form submit for future Meritto API integration
+    document.getElementById('enquiry-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Form submitted! You can now hook this to Meritto API.');
+      // Add Meritto API integration here using fetch() or XMLHttpRequest
+    });
+  </script>
+</body>
+</html>

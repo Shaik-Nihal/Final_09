@@ -1,0 +1,788 @@
+/* 
+===============================
+    Home Page Styles
+===============================
+
+/* Hero Section */
+
+/* Hero Slider */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-slider {
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slide::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+.slide-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+  width: 80%;
+  max-width: 800px;
+}
+
+/* Change text color for slide content */
+.slide-content h1 {
+  color: #ffffff; /* Change this to your desired color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Optional: Add shadow for better readability */
+}
+
+.slide-content p {
+  color: #f0f0f0; /* Change this to your desired color */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Optional: Add shadow for better readability */
+}
+
+.slider-controls {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  margin-bottom: 80vh;
+  margin-top: -40vh;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.5rem;
+  transition: background-color 0.3s ease;
+  z-index: 4;
+}
+
+.prev-btn {
+  left: 1rem;
+}
+
+.next-btn {
+  right: 1rem;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: var(--primary);
+}
+
+.slider-dots {
+  display: flex;
+  margin: 0 1rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: rgb(204, 204, 35);
+}
+
+/* Accreditations Section */
+.accreditations {
+  background-color: var(--gray-light);
+  padding: 70px 0;
+}
+
+.accreditation-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.logo-item {
+  text-align: center;
+  width: 180px;
+  transition: all 0.3s ease;
+}
+
+.logo-item:hover {
+  transform: scale(1.05);
+}
+
+.logo-item img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  filter: grayscale(80%);
+  transition: all 0.3s ease;
+}
+
+.logo-item:hover img {
+  filter: grayscale(0%);
+}
+
+.logo-item span {
+  font-size: 13px;
+  color: var(--gray-dark);
+  display: block;
+}
+
+/* International Partnerships */
+.international-partnerships {
+  background-color: var(--white);
+  padding: 70px 0;
+}
+
+.partnerships-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.partnership-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.partnership-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.partnership-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.partnership-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 15px 20px 5px;
+}
+
+.partnership-card p {
+  color: var(--gray-dark);
+  font-size: 14px;
+  margin: 0 20px 20px;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+  background-color: var(--gray-lightest);
+  padding: 50px 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.why-choose-us h2 {
+    text-align: center;
+    font-size: 3.6rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.why-choose-us h2::after {
+    content: '';
+    display: block;
+    margin: 1.2rem auto 0;
+    width: 80px;
+    height: 4px;
+    background: teal;
+    border-radius: 2px;
+}
+
+.why-choose-us p {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 4rem;
+}
+
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  margin-bottom: 20px;
+}
+
+.feature-icon i {
+  font-size: 40px;
+  color: var(--primary-dark);
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.feature-card p {
+  color: var(--gray-dark);
+}
+
+/* Forms */
+form {
+    margin-top: 2.4rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.6rem;
+}
+
+.form-group {
+    margin-bottom: 1.6rem;
+    flex: 1;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 1.2rem;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    font-size: 1.6rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 12rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+}
+
+.checkbox-group input {
+    width: auto;
+    margin-right: 1rem;
+    margin-top: 0.4rem;
+}
+
+.checkbox-group label {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.form-submit {
+    margin-top: 2.4rem;
+}
+
+/* We are Apollo */
+.apollo-section {
+    padding: 6rem 2rem;
+    color: #000;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.626);
+    font-family: 'Poppins', sans-serif;
+    background-image: url('/images/we-are-apollo.jpg'); /* Ensure the image path is correct */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.apollo-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.608); /* Slightly lighter dimming for better readability */
+    z-index: 1;
+}
+
+.apollo-section .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.apollo-title {
+    font-size: 4.8rem;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 3rem;
+}
+
+.apollo-title span {
+    color: var(--primary-dark); /* Use primary-dark for consistency */
+}
+
+.apollo-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.stat-block {
+    text-align: center;
+}
+
+.stat-block h3 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--primary-dark); /* Use primary color for emphasis */
+    margin-bottom: 0.5rem;
+}
+
+.stat-block p {
+    font-size: 1.8rem;
+    font-weight: 500;
+    font-style: bold;
+    color: var(--gray-dark); /* Use gray-dark for better contrast */
+}
+
+.divider {
+    width: 2px;
+    height: 70px;
+    background-color: var(--secondary); /* Use secondary color for visual consistency */
+}
+
+.apollo-summary {
+    font-size: 4rem;
+    font-weight: 600;
+    color: var(--gray-dark); /* Use gray-dark for base text */
+    line-height: 1.7;
+}
+
+.apollo-summary span {
+    color: var(--primary-dark); /* Highlight spans with primary-dark */
+    font-size: 4.2rem; /* Slightly larger font size for emphasis */
+    font-weight: 700;
+    background-color: var(--primary-light); /* Add background highlight */
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--border-radius); /* Rounded edges for better design */
+}
+
+   
+/* CTA Sections */
+.enquiry-cta {
+    background-color: var(--primary-light);
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    margin-bottom: 1.6rem;
+}
+
+.cta-content p {
+    margin-bottom: 2.4rem;
+    font-size: 1.8rem;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.6rem;
+}
+
+/* Featured Programs */
+.featured-programs {
+  padding: 2rem 0;
+  background-color: var(--gray-lightest);
+  background-position: center;
+  background-size: cover;
+  color: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-programs h2 {
+  text-align: center;
+  margin: 0 auto 1rem auto;
+  border: 2px solid var(--primary);
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  background: rgba(255,255,255,0.85);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.featured-programs p {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--black);
+  position: relative;
+  z-index: 1;
+}
+
+/* Card Carousel Layout */
+.program-cards-wrapper {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 3rem 0;
+}
+
+.program-cards {
+  display: flex;
+  gap: 2.4rem;
+  transition: transform 0.5s cubic-bezier(.4,2,.6,1);
+  will-change: transform;
+}
+
+.program-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.3s, transform 0.3s;
+  min-width: 28rem;
+  max-width: 28rem;
+  flex: 0 0 28rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.program-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+}
+
+.program-card img {
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.program-card h3 {
+  padding: 1.4rem 1.4rem 0.7rem;
+  font-size: 1.7rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.program-card p {
+  padding: 0 1.4rem 1.4rem;
+  color: var(--gray);
+  text-align: left;
+  font-size: 1.4rem;
+}
+
+.program-card .btn {
+  margin: 0 1.4rem 1.4rem;
+  align-self: flex-start;
+}
+
+.program-card-controls {
+  position: relative;
+  width: 100%;
+  height: 0;
+}
+.program-card-controls, .prev-control, .next-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--primary-dark);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.5rem;
+  transition: background-color 0.3s ease;
+  z-index: 4;
+}
+.prev-control {
+  left: 1rem;
+}
+.next-control {
+  right: 1rem;
+}
+ .prev-control:hover,
+ .next-control:hover {
+  background-color: var(--primary);
+}
+
+.view-all {
+  position: center;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.view-all .btn {
+
+  margin-left: 50px;
+  margin-right: 50px;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .program-cards-wrapper {
+    max-width: 90vw;
+  }
+  .program-card {
+    min-width: 22rem;
+    max-width: 22rem;
+    flex: 0 0 22rem;
+  }
+  .featured-programs h2 {
+    font-size: 2rem;
+    padding: 0.4rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .program-cards-wrapper {
+    max-width: 100vw;
+    padding: 0;
+  }
+  .program-card {
+    min-width: 90vw;
+    max-width: 90vw;
+    flex: 0 0 90vw;
+  }
+  .program-card-controls {
+    width: 100vw;
+  }
+}
+
+/* Our Centres */
+.our-centres {
+    padding: 8rem 0;
+}
+
+.our-centres h2 {
+    text-align: center;
+    font-size: 4rem;
+    margin-bottom: 4rem;
+}
+
+.centre-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    gap: 3.2rem;
+}
+
+.centre-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-light);
+    transition: var(--transition);
+}
+
+.centre-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.centre-card img {
+    width: 100%;
+    height: 20rem;
+    object-fit: cover;
+}
+
+.centre-card h3 {
+    padding: 1.6rem 1.6rem 0.8rem;
+    font-size: 2rem;
+}
+
+.centre-card p {
+    padding: 0 1.6rem 1.6rem;
+    color: var(--gray);
+}
+
+.centre-card .btn {
+    margin: 0 1.6rem 1.6rem;
+}
+
+/* Quick Enquiry */
+.quick-enquiry {
+    padding: 8rem 0;
+    background-color: var(--gray-lightest);
+}
+
+.quick-enquiry h2 {
+    text-align: center;
+    margin-bottom: 1.6rem;
+}
+
+.quick-enquiry > .container > p {
+    text-align: center;
+    max-width: 60rem;
+    margin: 0 auto 4rem;
+}
+
+.enquiry-form {
+    max-width: 80rem;
+    margin: 0 auto;
+    background-color: var(--white);
+    padding: 3.2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+
+/* Responsive Styles for Home Page */
+
+
+@media (max-width: 1024px) {
+    .hero {
+        padding: 0rem;
+    }
+    
+    .hero h1 {
+        font-size: 3.6rem;
+    }
+    
+    .hero p {
+        font-size: 1.8rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .featured-programs, .our-centres, .quick-enquiry {
+        padding: 6rem 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .program-cards, .centre-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .enquiry-form {
+        padding: 2.4rem;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+    }
+}

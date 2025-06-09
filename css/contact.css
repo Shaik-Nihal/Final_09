@@ -1,0 +1,389 @@
+/* 
+===============================
+    Contact Page Styles
+===============================
+/* Header */
+* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    -webkit-text-fill-color: #FFFFFF;
+    padding: 2rem 0; /* Increase padding for more height */
+    height: auto; /* Optional: Set height to auto if padding is used */
+}
+
+
+header.scrolled {
+    background-color: var(--white); /* Replace this with your desired color */
+    opacity: 90%;
+    -webkit-text-fill-color: #000000;
+    color: #FFFFFF; /* Adjust text color for visibility */
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+}
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%; /* Ensure content aligns properly */
+}
+
+@media (max-width: 1024px) {
+    header {
+        color: var(--black);
+        -webkit-text-fill-color: var(--black);
+    }
+
+    header.scrolled {
+        color: var(--black);
+        -webkit-text-fill-color: var(--black);
+    }
+
+    nav ul li a {
+        color: var(--black);
+    }
+
+    nav ul li a:hover {
+        color: var(--primary-dark);
+    }
+}
+
+
+/* Program Hero Section */
+.page-hero {
+    position: relative;
+    height: 60vh;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://img.freepik.com/free-photo/free-time-students-bachelor-s-campus-life-rhythm-five-friendly-students-are-walking_8353-6408.jpg?t=st=1746110445~exp=1746114045~hmac=6398fde76749f8b96ecf24b6cb6f0f31b129a1facd438528a1ab871e065661d3&w=1380') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.page-hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.page-hero p {
+    font-size: 1.8rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 6rem 0;
+    background-color: var(--gray-lightest);
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.contact-info {
+    background-color: var(--white);
+    padding: 3.2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.contact-info h2 {
+    margin-bottom: 1.6rem;
+    color: var(--primary);
+}
+
+.contact-info > p {
+    margin-bottom: 2.4rem;
+    color: var(--gray);
+}
+
+.info-item {
+    display: flex;
+    margin-bottom: 2.4rem;
+}
+
+.info-item i {
+    font-size: 2.4rem;
+    color: var(--primary);
+    margin-right: 1.6rem;
+    min-width: 2.4rem;
+}
+
+.info-item h3 {
+    margin-bottom: 0.8rem;
+    font-size: 1.8rem;
+}
+
+.info-item p {
+    color: var(--gray);
+    margin-bottom: 0.4rem;
+}
+
+.social-media h3 {
+    margin-bottom: 1.6rem;
+    font-size: 1.8rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.6rem;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    background-color: var(--gray-lightest);
+    color: var(--primary);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.social-icons a:hover {
+    background-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+.contact-form {
+    background-color: var(--white);
+    padding: 3.2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.contact-form h2 {
+    margin-bottom: 1.6rem;
+    color: var(--primary);
+}
+
+.contact-form > p {
+    margin-bottom: 2.4rem;
+    color: var(--gray);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.6rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 1.2rem;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    font-size: 1.6rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 12rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+}
+
+.checkbox-group input {
+    width: auto;
+    margin-right: 1rem;
+    margin-top: 0.4rem;
+}
+
+.checkbox-group label {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.form-submit {
+    margin-top: 2.4rem;
+}
+
+.form-submit .btn {
+    width: 100%;
+}
+
+/* Alternative Contact Methods */
+.alternative-contact {
+    padding: 6rem 0;
+    background-color: var(--white);
+}
+
+.alternative-contact h2 {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contact-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3.2rem;
+}
+
+.contact-option {
+    background-color: var(--gray-lightest);
+    border-radius: var(--border-radius);
+    padding: 3.2rem 2.4rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.contact-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.option-icon {
+    width: 8rem;
+    height: 8rem;
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2.4rem;
+}
+
+.option-icon i {
+    font-size: 3.2rem;
+}
+
+.contact-option h3 {
+    margin-bottom: 1.2rem;
+}
+
+.contact-option p {
+    color: var(--gray);
+    margin-bottom: 2.4rem;
+}
+
+.contact-option .btn {
+    width: 100%;
+}
+
+/* FAQ Quick Links */
+.faq-quick-links {
+    padding: 6rem 0;
+    background-color: var(--gray-lightest);
+}
+
+.faq-quick-links h2 {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.faq-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 2.4rem;
+}
+
+.faq-link {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2.4rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.faq-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-light);
+}
+
+.faq-link i {
+    font-size: 3.2rem;
+    color: var(--primary);
+    margin-bottom: 1.6rem;
+}
+
+.faq-link h3 {
+    margin-bottom: 0;
+    color: var(--gray-dark);
+}
+
+.faq-link:hover h3 {
+    color: var(--primary-dark);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
+    }
+    .program-header img {
+        height: 20rem;
+    }
+    header {
+        -webkit-text-fill-color: #000000; /* Change text color to black for visibility */
+        color: #000000;
+    }
+    .requirement {
+        padding: 1.6rem;
+    }    
+    .contact-options {
+        grid-template-columns: 1fr;
+        max-width: 50rem;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 1024px) {
+    .faq-links {
+        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .contact-info, .contact-form {
+        padding: 2.4rem;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .info-item i {
+        margin: 0 auto 1.2rem;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+    
+    .faq-links {
+        grid-template-columns: 1fr;
+    }
+}

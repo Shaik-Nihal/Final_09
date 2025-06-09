@@ -1,0 +1,297 @@
+/* Chennai.css - Premium Version */
+/* ==============================
+    Modern CSS Reset
+============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+/* ==============================
+  CSS Variables
+============================== */
+:root {
+  --primary: #00A0B0;
+  --primary-dark: #007A85;
+  --primary-light: #B3E0E5;
+  --secondary: #F57F17;
+  --secondary-dark: #BC5100;
+  --secondary-light: #FFAD42;
+  --accent: #6A1B9A;
+  --gray-dark: #333333;
+  --gray: #666666;
+  --gray-light: #CCCCCC;
+  --gray-lightest: #F5F5F5;
+  --white: #FFFFFF;
+  --black: #000000;
+  --success: #4CAF50;
+  --warning: #FF9800;
+  --error: #F44336;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 4px;
+  --transition: all 0.3s ease;
+  --font-heading: 'Arial', sans-serif;
+  --font-body: 'Arial', sans-serif;
+}
+
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header Styles */
+
+/* Ensure header is not affected by global resets */
+header * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Responsive Header Scaling */
+@media screen and (max-width: 1024px) {
+  header {
+      font-size: 1rem; /* Further adjust for smaller screens */
+      padding: 10px;
+  }
+
+  .page-hero h1 {
+      font-size: 3rem; /* Scale down hero heading */
+  }
+
+  .page-hero p {
+      font-size: 1.5rem; /* Scale down hero paragraph */
+  }
+
+  .highlight-grid {
+      grid-template-columns: 1fr; /* Single column for smaller screens */
+      gap: 20px;
+  }
+
+  .testimonial-cards {
+      grid-template-columns: 1fr; /* Single column for testimonials */
+      gap: 20px;
+  }
+
+  .facility-list li {
+      flex-direction: column; /* Stack items vertically */
+      align-items: flex-start;
+  }
+  body {
+      font-size: 14px; /* Adjust base font size for very small screens */
+  }
+
+  .page-hero {
+      padding: 0 1rem; /* Reduce padding for smaller screens */
+  }
+
+  .section {
+      padding: 50px 20px; /* Reduce section padding */
+  }
+
+  .highlight-grid div {
+      padding: 20px; /* Adjust card padding */
+  }
+
+  .testimonial-card {
+      padding: 20px; /* Adjust testimonial card padding */
+      align-items: center; /* Center align items */
+      text-align: center; /* Center align text */
+  }
+}
+
+/* Program Hero Section */
+.page-hero {
+  position: relative;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://img.freepik.com/premium-photo/road-passing-through-city-against-sky_1048944-30434419.jpg?w=1060') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  text-align: center;
+  padding: 0 2rem;
+  background-attachment: fixed;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.page-hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.page-hero p {
+  font-size: 1.8rem;
+  max-width: 60rem;
+  margin: 0 auto;
+  margin-bottom: 5%;
+  line-height: 1.6;
+}
+
+/* ==============================
+   Highlights Grid
+============================== */
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  gap: 3rem;
+  padding: 4rem 2rem;
+  margin: 4rem auto;
+  max-width: 120rem;
+}
+
+.section {
+  margin: 2rem auto;
+}
+
+.highlight-grid > * {
+  background: var(--white);
+  padding: 3rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+  border: 1px solid var(--gray-light);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.highlight-grid > *:hover {
+  transform: translateY(-1rem);
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.15);
+}
+
+.highlight-grid i {
+  display: block;
+  font-size: 3.2rem;
+  color: var(--secondary);
+  margin-bottom: 1.5rem;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-0.8rem); }
+}
+
+/* ==============================
+   Facilities List
+============================== */
+.facility-list {
+  list-style: none;
+  max-width: 80rem;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.facility-list li {
+  background: var(--white);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.3s var(--transition), box-shadow 0.3s var(--transition);
+  position: relative;
+}
+
+.facility-list li:hover {
+  transform: translateX(1rem);
+  box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.12);
+}
+
+.facility-list li::before {
+  content: '✔';
+  font-size: 2rem;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+/* ==============================
+   Testimonials
+============================== */
+.testimonial-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+  gap: 3rem;
+  padding: 4rem 2rem;
+  margin: 4rem auto;
+  max-width: 120rem;
+}
+
+.testimonial-card {
+  background: var(--primary-light);
+  padding: 3rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-0.8rem);
+  box-shadow: 0 1.6rem 3.2rem rgba(0, 0, 0, 0.14);
+}
+
+.testimonial-card::before {
+  content: '“';
+  position: absolute;
+  font-size: 6rem;
+  color: var(--secondary-light);
+  top: -1rem;
+  left: 1rem;
+  opacity: 0.2;
+}
+
+.testimonial-card p {
+  font-style: italic;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: var(--gray-dark);
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.testimonial-card cite {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--primary-dark);
+  text-align: right;
+}
+
+/* ==============================
+   Section Headings Animation
+============================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(2rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section h2 {
+  position: relative;
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  margin-bottom: 3rem;
+  color: var(--primary-dark);
+}

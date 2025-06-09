@@ -1,0 +1,383 @@
+/* General Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Login Page Styles */
+.login-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto; /* Center the login box */
+    text-align: center;
+}
+
+.login-container h2 {
+    color: #0056b3; /* Apollo Blue */
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-group input[type="email"],
+.input-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.btn {
+    background-color: #007bff; /* Primary Button Blue */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* For anchor tags styled as buttons */
+    display: inline-block; /* For anchor tags */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker Blue on hover */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red for danger/logout */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker Red on hover */
+}
+
+.error-message {
+    color: #dc3545; /* Red for errors */
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+/* Dashboard Header Styles */
+.dashboard-header {
+    background-color: #0056b3; /* Apollo Blue */
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+/* Dashboard Main Content Styles */
+.dashboard-main {
+    flex-grow: 1; /* Make main content take available space */
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.dashboard-main section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.dashboard-main h2 {
+    color: #0056b3;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Responsive adjustments (optional, but good practice) */
+@media (max-width: 768px) {
+    .dashboard-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dashboard-header h1 {
+        margin-bottom: 10px;
+    }
+
+    .login-container {
+        margin: 30px auto;
+        padding: 20px;
+    }
+}
+
+/* Styles for Admin Dashboard Content Management Sections */
+.form-and-list-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 30px; /* Space between form and list */
+    margin-top: 20px;
+}
+
+.form-container {
+    flex: 1; /* Takes up half the space */
+    min-width: 300px; /* Minimum width before wrapping */
+    background-color: #fdfdfd;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.list-container {
+    flex: 1; /* Takes up half the space */
+    min-width: 300px; /* Minimum width before wrapping */
+    background-color: #fdfdfd;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.form-container h3, .list-container h3 {
+    color: #0056b3;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    min-height: 80px;
+}
+
+.input-group input[type="file"] {
+    padding: 10px;
+     /* Standard browser styling for file inputs is often sufficient */
+}
+
+.input-group input[type="number"] {
+     width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+#hero-slides-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#hero-slides-list li {
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#hero-slides-list li .slide-info h4 {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+#hero-slides-list li .slide-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+#hero-slides-list li .slide-info img {
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+
+.slide-actions .btn {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.list-item-placeholder {
+    color: #777;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.success-message {
+    color: #155724; /* Green for success */
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+/* Ensure error messages (already defined) are also distinct */
+.error-message {
+    background-color: #f8d7da; /* Light red background for errors */
+    border-color: #f5c6cb;
+    padding: 10px; /* Add padding if not already there */
+    border-radius: 4px; /* Add border-radius if not already there */
+}
+
+/* Current image preview - REMOVED as previews are no longer used for URL inputs */
+/* #hero-current-image { ... } */
+/* #program-image-preview { ... } */
+
+small {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 0.85em;
+    color: #666;
+}
+
+@media (max-width: 992px) { /* Adjust breakpoint as needed */
+    .form-and-list-container {
+        flex-direction: column;
+    }
+    .form-container, .list-container {
+        flex: none; /* Reset flex behavior */
+        width: 100%; /* Take full width */
+    }
+}
+
+/* Specific styling for Programs Page Hero section if needed */
+.programs-hero-form-container {
+    /* This class is on the form-container div for the programs hero */
+    /* It can be used if specific layout adjustments are needed, different from other form-containers */
+    /* For example, if it doesn't have a list next to it, you might want it to be narrower */
+    max-width: 700px; /* Example: Limit width if it's a single column form */
+    margin-left: auto; /* Center it if max-width is applied */
+    margin-right: auto; /* Center it if max-width is applied */
+}
+
+#programs-hero-status .success-message,
+#programs-hero-status .error-message {
+    margin-top: 0; /* Status div itself has margin-top, so messages inside don't need extra */
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    display: block; /* Ensure it takes up the line */
+}
+
+#programs-hero-status .success-message {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+#programs-hero-status .error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+/* Program Cards List specific styles */
+#program-cards-list li {
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+}
+
+#program-cards-list li .card-info { /* Renamed from .slide-info for clarity */
+    flex-grow: 1; /* Allow info to take up available space */
+}
+
+#program-cards-list li .card-info h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+}
+
+#program-cards-list li .card-info p {
+    margin: 0 0 8px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+#program-cards-list li .card-info img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-width: 100px; /* Control image size in list */
+    height: auto;
+    margin-top: 5px;
+}
+
+#program-cards-list li .card-actions { /* Renamed from .slide-actions */
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically on small screens if needed or keep row */
+    gap: 5px; /* Space between buttons if they wrap or are stacked */
+}
+
+#program-cards-list li .card-actions .btn {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    /* margin-left: 5px; */ /* Removed if using gap */
+}
+
+
+/* Program Card Image Preview - REMOVED */
+/* #program-image-preview { ... } */
