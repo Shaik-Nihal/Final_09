@@ -97,6 +97,28 @@
             </div>
         </section>
 
+        <section id="hp-ourprograms-meta-management">
+            <h2>Homepage "Our Programs" Section Details</h2>
+            <p>Manage the title and introductory paragraph for the "Our Programs" section on the homepage.</p>
+            <div class="form-container">
+                <h3>Edit "Our Programs" Section Meta</h3>
+                <form id="hp-ourprograms-meta-form">
+                    <div class="input-group">
+                        <label for="hp-ourprograms-title">Section Title</label>
+                        <input type="text" id="hp-ourprograms-title" name="hpOurProgramsTitle" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="hp-ourprograms-intro">Introductory Paragraph</label>
+                        <textarea id="hp-ourprograms-intro" name="hpOurProgramsIntro" rows="4" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="hp-ourprograms-meta-save-button" class="btn">Save Details</button>
+                    </div>
+                    <div id="hp-ourprograms-meta-status" style="margin-top: 15px;"></div>
+                </form>
+            </div>
+        </section>
+
         <section id="program-cards-management">
             <h2>Program Cards</h2>
             <p>Manage individual program cards displayed on the homepage and programs page.</p>
@@ -259,6 +281,11 @@
                             <label for="center-page-url">Page URL</label>
                             <input type="text" id="center-page-url" name="centerPageUrl" placeholder="centres/chennai/" required>
                             <small>Relative URL to the center's detail page (e.g., centres/chennai/ or centres/chennai/index.html)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="center-map-embed-code">Map Embed Code (iframe)</label>
+                            <textarea id="center-map-embed-code" name="mapEmbedCode" rows="4"></textarea>
+                            <small>Paste the full iframe code from Google Maps (Share > Embed a map).</small>
                         </div>
                         <div class="input-group">
                             <label for="center-order">Order</label>

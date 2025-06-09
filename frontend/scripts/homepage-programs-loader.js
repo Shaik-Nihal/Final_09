@@ -1,49 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof firebase === 'undefined' || typeof firebase.firestore === 'undefined') {
-        console.error("Firebase not initialized. Ensure firebase-config.js is loaded before homepage-centers-loader.js.");
-        const centersContainer = document.getElementById('dynamic-centre-cards-homepage');
-        if (centersContainer) {
-            centersContainer.innerHTML = '<p style="color:red; text-align:center;">Error: Firebase not configured. Centers cannot be loaded.</p>';
+        console.error("Firebase not initialized. Ensure firebase-config.js is loaded before homepage-programs-loader.js.");
+        const programsContainer = document.getElementById('dynamic-program-cards-homepage');
+        if (programsContainer) {
+            programsContainer.innerHTML = '<p style="color:red; text-align:center;">Error: Firebase not configured. Programs cannot be loaded.</p>';
         }
         return;
     }
 
     const db = firebase.firestore();
-    const centersCollection = db.collection('centers_list');
-    const centersContainer = document.getElementById('dynamic-centre-cards-homepage');
-    const LOCAL_STORAGE_KEY = 'homepageCentersCache';
+    const programsCollectionRef = db.collection('programs'); // Using existing 'programs' collection
+    const programsContainer = document.getElementById('dynamic-program-cards-homepage');
+    const LOCAL_STORAGE_KEY = 'homepageProgramsCache';
 
-    if (!centersContainer) {
-        console.error("Error: The container '#dynamic-centre-cards-homepage' was not found in the HTML.");
+    if (!programsContainer) {
+        console.error("Error: The container '#dynamic-program-cards-homepage' was not found in the HTML.");
         return;
     }
 
-    function renderHomepageCenters(data, container) {
+    function renderHomepagePrograms(data, container) {
         container.innerHTML = ''; // Clear previous content
 
         if (!data || data.length === 0) {
-            container.innerHTML = '<p style="text-align:center;">Information about our centers will be available soon.</p>';
+            container.innerHTML = '<p style="text-align:center;">Program details are coming soon. Please check back later!</p>';
             return;
         }
 
         let htmlContent = '';
-        data.forEach(center => {
-            if (center.name && center.imageUrl && center.description && center.pageUrl) {
+        data.forEach(program => {
+            if (program.title && program.description && program.imageUrl && program.linkUrl) {
                 htmlContent += `
-                    <div class="centre-card">
-                        <img src="${center.imageUrl}" alt="${center.name} Centre" loading="lazy">
-                        <h3>${center.name}</h3>
-                        <p>${center.description}</p>
-                        <a href="${center.pageUrl.startsWith('/') ? '' : '/'}${center.pageUrl}" class="btn">View Details</a>
+                    <div class="program-card">
+                        <img src="${program.imageUrl}" alt="${program.title}" loading="lazy">
+                        <h3>${program.title}</h3>
+                        <p>${program.description}</p>
+                        <a href="${program.linkUrl.startsWith('/') ? '' : '/'}${program.linkUrl}" class="btn">Learn More</a>
                     </div>
                 `;
             } else {
-                console.warn("Skipping a homepage center item due to missing fields:", center);
+                console.warn("Skipping a homepage program card item due to missing essential fields:", program);
             }
         });
 
         if (htmlContent === '') {
-            container.innerHTML = '<p style="text-align:center;">Currently, no center information is available in the required format.</p>';
+            container.innerHTML = '<p style="text-align:center;">Currently, no program information is available in the required format.</p>';
         } else {
             container.innerHTML = htmlContent;
         }
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cachedDataString) {
             const cachedData = JSON.parse(cachedDataString);
             if (cachedData && Array.isArray(cachedData)) {
-                renderHomepageCenters(cachedData, centersContainer);
+                renderHomepagePrograms(cachedData, programsContainer);
                 renderedFromCache = true;
                 console.log(`Loaded ${LOCAL_STORAGE_KEY} from cache.`);
             }
@@ -66,10 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!renderedFromCache) {
-        // centersContainer.innerHTML = '<p style="text-align:center;">Loading center information...</p>';
+        // programsContainer.innerHTML = '<p style="text-align:center;">Loading programs...</p>';
     }
 
-    centersCollection.orderBy('order', 'asc').get()
+    programsCollectionRef.orderBy('order', 'asc').get()
         .then(snapshot => {
             const firestoreDataArray = [];
             snapshot.forEach(doc => {
@@ -81,13 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (currentCacheString !== newFirestoreDataString) {
                 console.log(`Data for ${LOCAL_STORAGE_KEY} has changed or cache was empty/invalid. Rendering from Firestore.`);
-                renderHomepageCenters(firestoreDataArray, centersContainer);
+                renderHomepagePrograms(firestoreDataArray, programsContainer);
                 localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
                 console.log(`Updated ${LOCAL_STORAGE_KEY} in cache.`);
             } else if (!renderedFromCache) {
                 console.log(`Cache for ${LOCAL_STORAGE_KEY} was not rendered. Rendering current Firestore data.`);
-                renderHomepageCenters(firestoreDataArray, centersContainer);
-                 if(!currentCacheString) localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
+                renderHomepagePrograms(firestoreDataArray, programsContainer);
+                if(!currentCacheString) localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
             } else {
                 console.log(`Data for ${LOCAL_STORAGE_KEY} is unchanged from cache. No UI update needed.`);
             }
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error(`Error fetching ${LOCAL_STORAGE_KEY} from Firestore:`, error);
             if (!renderedFromCache) {
-                centersContainer.innerHTML = '<p style="color:red; text-align:center;">Could not load center information due to an error. Please try again later.</p>';
+                programsContainer.innerHTML = '<p style="color:red; text-align:center;">Could not load programs due to an error. Please try again later.</p>';
             } else {
                 console.warn(`Failed to update ${LOCAL_STORAGE_KEY} from Firestore. Displaying cached version.`);
             }

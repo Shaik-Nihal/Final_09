@@ -14,64 +14,105 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();
     const centersCollection = db.collection('centers_list');
     const centersListingContainer = document.getElementById('dynamic-centre-cards-listing');
+    const LOCAL_STORAGE_KEY = 'centersPageCache';
 
     if (!centersListingContainer) {
         console.error("Error: The container '#dynamic-centre-cards-listing' was not found in centres/index.html.");
         return;
     }
 
-    centersCollection.orderBy('order', 'asc').get()
-        .then(snapshot => {
-            if (snapshot.empty) {
-                centersListingContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Details about our centers will be updated soon. Please check back later.</p>';
-                return;
-            }
+    function renderCentersPage(data, container) {
+        container.innerHTML = ''; // Clear previous content
 
-            let htmlContent = '';
-            snapshot.forEach(doc => {
-                const center = doc.data();
-                // Basic validation for essential fields from Firestore
-                if (center.name && center.imageUrl && center.description && center.pageUrl) {
-                    // Construct the card HTML based on the structure in centres/index.html
-                    // For now, we only use fields available in the 'centers_list' collection
-                    htmlContent += `
-                        <div class="centre">
-                            <div class="centre-image">
-                                <img src="${center.imageUrl}" alt="${center.name} Centre" loading="lazy">
-                            </div>
-                            <div class="centre-details">
-                                <h2>${center.name}</h2>
-                                <p class="centre-description">${center.description}</p>
-                                <!-- Placeholder for centre-info and centre-facilities as they are not in Firestore -->
-                                <!--
-                                <div class="centre-info">
-                                    <div class="info-item"><i class="fas fa-map-marker-alt"></i><p>Address not available</p></div>
-                                    <div class="info-item"><i class="fas fa-phone"></i><p>Phone not available</p></div>
-                                    <div class="info-item"><i class="fas fa-envelope"></i><p>Email not available</p></div>
-                                </div>
-                                <div class="centre-facilities">
-                                    <h3>Key Facilities</h3>
-                                    <ul><li>Details coming soon...</li></ul>
-                                </div>
-                                -->
-                                <a href="${center.pageUrl.startsWith('/') ? '' : '/'}${center.pageUrl}" class="btn">View Details</a>
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p style="text-align:center; padding: 20px;">Details about our centers will be updated soon. Please check back later.</p>';
+            return;
+        }
+
+        let htmlContent = '';
+        data.forEach(center => {
+            if (center.name && center.imageUrl && center.description && center.pageUrl) {
+                let mapHtml = '<p style="color: #777; font-size: 0.9em; text-align: center; padding-top: 20px;">Map not available.</p>';
+                if (center.mapEmbedCode && center.mapEmbedCode.trim().startsWith('<iframe')) {
+                    mapHtml = center.mapEmbedCode;
+                }
+
+                htmlContent += `
+                    <div class="centre">
+                        <div class="centre-image">
+                            <img src="${center.imageUrl}" alt="${center.name} Centre" loading="lazy">
+                        </div>
+                        <div class="centre-details">
+                            <h2>${center.name}</h2>
+                            <p class="centre-description">${center.description}</p>
+                            <a href="${center.pageUrl.startsWith('/') ? '' : '/'}${center.pageUrl}" class="btn">View Details</a>
+                            <div class="centre-map-embed" style="width: 100%; margin-top: 15px; min-height: 200px;">
+                                ${mapHtml}
                             </div>
                         </div>
-                    `;
-                } else {
-                    console.warn("Skipping a center item for the listing page due to missing essential fields:", center);
-                }
+                    </div>
+                `;
+            } else {
+                console.warn("Skipping a center item for the listing page due to missing essential fields:", center);
+            }
+        });
+
+        if (htmlContent === '') {
+            container.innerHTML = '<p style="text-align:center; padding: 20px;">Currently, no center information is available in the required format for the listing page.</p>';
+        } else {
+            container.innerHTML = htmlContent;
+        }
+    }
+
+    let renderedFromCache = false;
+    try {
+        const cachedDataString = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (cachedDataString) {
+            const cachedData = JSON.parse(cachedDataString);
+            if (cachedData && Array.isArray(cachedData)) {
+                renderCentersPage(cachedData, centersListingContainer);
+                renderedFromCache = true;
+                console.log(`Loaded ${LOCAL_STORAGE_KEY} from cache.`);
+            }
+        }
+    } catch (e) {
+        console.error(`Error reading or parsing ${LOCAL_STORAGE_KEY} from cache:`, e);
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+
+    if (!renderedFromCache) {
+        // centersListingContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Loading centers...</p>';
+    }
+
+    centersCollection.orderBy('order', 'asc').get()
+        .then(snapshot => {
+            const firestoreDataArray = [];
+            snapshot.forEach(doc => {
+                firestoreDataArray.push(doc.data());
             });
 
-            if (htmlContent === '') {
-                 centersListingContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Currently, no center information is available in the required format for the listing page.</p>';
-            } else {
-                centersListingContainer.innerHTML = htmlContent;
-            }
+            const currentCacheString = localStorage.getItem(LOCAL_STORAGE_KEY);
+            const newFirestoreDataString = JSON.stringify(firestoreDataArray);
 
+            if (currentCacheString !== newFirestoreDataString) {
+                console.log(`Data for ${LOCAL_STORAGE_KEY} has changed or cache was empty/invalid. Rendering from Firestore.`);
+                renderCentersPage(firestoreDataArray, centersListingContainer);
+                localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
+                console.log(`Updated ${LOCAL_STORAGE_KEY} in cache.`);
+            } else if (!renderedFromCache) {
+                console.log(`Cache for ${LOCAL_STORAGE_KEY} was not rendered. Rendering current Firestore data.`);
+                renderCentersPage(firestoreDataArray, centersListingContainer);
+                if(!currentCacheString) localStorage.setItem(LOCAL_STORAGE_KEY, newFirestoreDataString);
+            } else {
+                console.log(`Data for ${LOCAL_STORAGE_KEY} is unchanged from cache. No UI update needed.`);
+            }
         })
         .catch(error => {
-            console.error("Error fetching centers for listing page:", error);
-            centersListingContainer.innerHTML = '<p style="color:red; text-align:center; padding: 20px;">Could not load center listings due to an error. Please try again later.</p>';
+            console.error(`Error fetching ${LOCAL_STORAGE_KEY} from Firestore:`, error);
+            if (!renderedFromCache) {
+                centersListingContainer.innerHTML = '<p style="color:red; text-align:center; padding: 20px;">Could not load center listings due to an error. Please try again later.</p>';
+            } else {
+                console.warn(`Failed to update ${LOCAL_STORAGE_KEY} from Firestore. Displaying cached version.`);
+            }
         });
 });

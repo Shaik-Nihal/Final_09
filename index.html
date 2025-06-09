@@ -51,6 +51,8 @@
     <script src="/frontend/scripts/accreditations-loader.js" defer></script>
     <script src="/frontend/scripts/global-connections-loader.js" defer></script>
     <script src="/frontend/scripts/homepage-centers-loader.js" defer></script>
+    <script src="/frontend/scripts/homepage-ourprograms-meta-loader.js" defer></script>
+    <script src="/frontend/scripts/homepage-programs-loader.js" defer></script>
 
     <!-- Google Tag Manager -->
     <script>
@@ -328,62 +330,10 @@
     <!-- Featured Programs -->
     <section class="featured-programs">
         <div class="container">
-            <h2>Our Programs</h2>
-            <div class="featured-caption"><br><p>Discover a wide range of healthcare programs at Apollo Allied Health Centres. From management to specialized healthcare technologies, we have the right program for you.</p></div>
-            <div class="program-cards">
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="MBA – Health Service Management" loading="lazy">       <h3>MBA – Health Service Management</h3>
-                    <p>Develop leadership skills to transform healthcare delivery systems.</p>
-                    <a href="programs/health-service-management" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/263337/pexels-photo-263337.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Physician Assistant" loading="lazy">
-                    <h3>B.Sc Physician Assistant</h3>
-                    <p>Train to provide essential clinical support to physicians.</p>
-                    <a href="programs/physician-assistant" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Medical Laboratory Technology" loading="lazy">
-                    <h3>B.Sc Medical Laboratory Technology</h3>
-                    <p>Master diagnostic techniques essential for modern healthcare.</p>
-                    <a href="programs/medical-laboratory-technology" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/3376790/pexels-photo-3376790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Operation Theatre & Anaesthesia Technology" loading="lazy">
-                    <h3>B.Sc Operation Theatre & Anaesthesia Technology</h3>
-                    <p>Learn to manage operation theatres and assist with anesthesia procedures.</p>
-                    <a href="programs/operation-theatre-technology" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/4226140/pexels-photo-4226140.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Radiotherapy Technology" loading="lazy">
-                    <h3>B.Sc Radiotherapy Technology</h3>
-                    <p>Specialize in cancer treatment technologies and patient care protocols.</p>
-                    <a href="programs/radiotherapy-technology" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/3938023/pexels-photo-3938023.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Critical Care Technology" loading="lazy">
-                    <h3>B.Sc Critical Care Technology</h3>
-                    <p>Become skilled in providing care to patients in intensive care units and emergency departments.</p>
-                    <a href="programs/critical-care-technology" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/8942991/pexels-photo-8942991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Nuclear Medicine Technology" loading="lazy">
-                    <h3>B.Sc Nuclear Medicine Technology</h3>
-                    <p>Learn to work with radioactive materials for diagnostic imaging and therapeutic treatments.</p>
-                    <a href="programs/nuclear-medicine-technology" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/3938022/pexels-photo-3938022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Dialysis Technology" loading="lazy">
-                    <h3>B.Sc Dialysis Technology</h3>
-                    <p>Specialize in renal replacement therapy and care for patients with kidney failure.</p>
-                    <a href="programs/dialysis-technology" class="btn">Learn More</a>
-                </div>
-                <div class="program-card">
-                    <img src="https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="B.Sc Health Psychology" loading="lazy">
-                    <h3>B.Sc Health Psychology</h3>
-                    <p>Study the psychological factors that influence health and illness.</p>
-                    <a href="programs/health-psychology" class="btn">Learn More</a>
-                </div>
+            <h2 id="hp-ourprograms-dynamic-title">Our Programs</h2>
+            <div class="featured-caption"><br><p id="hp-ourprograms-dynamic-intro">Discover a wide range of healthcare programs at Apollo Allied Health Centres. From management to specialized healthcare technologies, we have the right program for you.</p></div>
+            <div id="dynamic-program-cards-homepage" class="program-cards">
+                <!-- Program cards will be dynamically loaded here -->
             </div>
             <div class="view-all"></div>
                 <a href="programs" class="btn btn-secondary">View All Programs</a>

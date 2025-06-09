@@ -107,9 +107,18 @@ The CMS uses Google Firestore to store data. Here's a brief overview of the coll
             *   `imageUrl` (string): URL for the center's representative image.
             *   `description` (string): A short description of the center.
             *   `pageUrl` (string): Relative URL to the center's specific page (e.g., "centres/chennai/" or "centres/chennai/index.html").
+            *   `mapEmbedCode` (string, optional): Full iframe embed code for Google Maps.
             *   `order` (number): A number determining the display sequence.
             *   `createdAt` (timestamp): Automatically added when an item is created.
             *   `updatedAt` (timestamp): Automatically updated when an item is modified.
+
+    *   **`homepage_content`**:
+        *   **Purpose:** Stores miscellaneous content for the homepage that doesn't fit into other specific collections.
+        *   **Documents:** Currently, one document is planned:
+            *   `our_programs_section_details`:
+                *   `title` (string): The title for the "Our Programs" section on the homepage.
+                *   `introParagraph` (string): The introductory paragraph for this section.
+                *   `lastUpdated` (timestamp): Automatically updated when these details are modified.
 
 ## 4. Admin Panel Usage Guide
 
@@ -133,6 +142,7 @@ Upon successful login, you will be redirected to the Admin Dashboard. The dashbo
 *   **Accreditations & Affiliations Management:** For managing the logos and names of accrediting bodies displayed on the homepage.
 *   **Global Connections Management:** For managing the international partnership cards on the homepage.
 *   **Centers List Management:** For managing the center cards displayed on the homepage and the main centers listing page.
+*   **Homepage 'Our Programs' Section Details:** For managing the title and intro paragraph of the "Our Programs" section on the homepage.
 
 There is also a **"Logout"** button in the header to securely log out of the admin panel.
 
@@ -274,9 +284,10 @@ This section allows you to manage the center cards that appear on the homepage a
     2.  **Center Name:** The name of the center (e.g., "Chennai Campus").
     3.  **Image URL:** URL for the center's image.
     4.  **Description:** A short description of the center.
-    5.  **Page URL:** The relative URL to the center's specific detail page (e.g., `centres/chennai/` or `centres/chennai/index.html`). This link will be used for the "View Details" button.
-    6.  **Order:** A number determining the display sequence.
-    7.  Click **"Save Center"**.
+    5.  **Page URL:** The relative URL to the center's specific detail page (e.g., `centres/chennai/` or `centres/chennai/index.html`).
+    6.  **Map Embed Code (iframe):** (Optional) Paste the full `<iframe>...</iframe>` code from Google Maps (Share > Embed a map) for the center's location.
+    7.  **Order:** A number determining the display sequence.
+    8.  Click **"Save Center"**.
 *   **Editing an Existing Center:**
     1.  In the "Existing Centers" list, click **"Edit"** next to the item.
     2.  The form populates with the center's details.
@@ -288,6 +299,19 @@ This section allows you to manage the center cards that appear on the homepage a
 *   **Frontend Display:**
     *   Homepage: Loaded by `frontend/scripts/homepage-centers-loader.js`.
     *   Centers Listing Page (`centres/index.html`): Loaded by `frontend/scripts/centers-page-loader.js`.
+
+### Managing Homepage "Our Programs" Section Details
+
+This section allows you to edit the main title and introductory paragraph for the "Our Programs" section that appears on the homepage.
+
+1.  The form "Edit 'Our Programs' Section Meta" will show the current title and paragraph.
+2.  **Section Title:** Modify the text for the main heading of this section (e.g., "Our Programs", "Featured Programs").
+3.  **Introductory Paragraph:** Modify the text for the paragraph that appears below the title.
+4.  Click **"Save Details"**.
+5.  A status message will confirm if the save was successful.
+*   **Frontend Display:**
+    *   The title and intro paragraph are loaded by `frontend/scripts/homepage-ourprograms-meta-loader.js`.
+    *   The actual program cards in this section are loaded by `frontend/scripts/homepage-programs-loader.js` (from the `programs` collection) and are managed under the "Program Cards" section of the admin panel.
 
 ### Image Handling via URLs
 
@@ -338,6 +362,9 @@ For any changes made via the CMS to be visible on your live website, and for the
     *   **Browser Cache:** Your browser might be showing an old (cached) version of the page. Try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R) or clear your browser cache.
     *   **Firebase Project Configuration:** Double-check that the `firebaseConfig` object in `frontend/scripts/firebase-config.js` points to the correct Firebase project where you are making admin changes.
     *   **Firestore Data:** Verify directly in the Firebase Firestore console that the data was actually updated as expected.
+
+*   **Frontend Performance & Caching:**
+    *   To improve loading speed and provide a smoother experience, the website's dynamic sections (like Hero Slides, Accreditations, Programs, etc.) use browser caching (localStorage). This means that after you visit a page, its content may load very quickly on subsequent visits, even before fetching the absolute latest updates from the server. The site will always try to get the latest content, but the cache helps in displaying information faster. If you've made a change in the CMS and don't see it immediately on the live site, a hard refresh (Ctrl+Shift+R or Cmd+Shift+R) of your browser page can sometimes help ensure you're seeing the very latest version.
 
 *   **"I'm seeing an error message when trying to save content."**
     *   Note down the error message shown in the admin panel or in the browser's developer console. This information can be helpful for diagnosing the issue. Common causes include network connectivity problems, incorrect Firebase rules (for write operations), or bugs in the CMS code.
@@ -603,6 +630,12 @@ You need to allow public read access to your new collection so the frontend can 
 
         // Rule for the centers_list collection
         match /centers_list/{centerId} {
+          allow read: if true;
+          allow write: if request.auth != null;
+        }
+
+        // Rule for the homepage_content collection
+        match /homepage_content/{docId} {
           allow read: if true;
           allow write: if request.auth != null;
         }

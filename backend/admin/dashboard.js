@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Dashboard: User is logged in", user.email);
             loadHeroSlides(); // Load hero slides data
             loadProgramsHeroContent(); // Load programs page hero content
+            loadHpOurProgramsMeta(); // Load Our Programs section meta for homepage
             // loadProgramCards(); // Placeholder for next feature
         } else {
             console.log("Dashboard: User is not logged in. Redirecting to login page.");
@@ -587,6 +588,70 @@ document.addEventListener('DOMContentLoaded', () => {
     if (programCardCancelEditButton) {
         programCardCancelEditButton.addEventListener('click', () => {
             resetProgramCardForm();
+        });
+    }
+
+    // Homepage "Our Programs" Section Meta Management
+    const hpOurProgramsMetaRef = db.collection('homepage_content').doc('our_programs_section_details');
+    const hpOurProgramsMetaForm = document.getElementById('hp-ourprograms-meta-form');
+    const hpOurProgramsTitleInput = document.getElementById('hp-ourprograms-title');
+    const hpOurProgramsIntroInput = document.getElementById('hp-ourprograms-intro');
+    const hpOurProgramsMetaStatusDiv = document.getElementById('hp-ourprograms-meta-status');
+    const hpOurProgramsMetaSaveButton = document.getElementById('hp-ourprograms-meta-save-button');
+
+    async function loadHpOurProgramsMeta() {
+        if (!hpOurProgramsTitleInput || !hpOurProgramsIntroInput) return;
+        try {
+            const doc = await hpOurProgramsMetaRef.get();
+            if (doc.exists) {
+                const data = doc.data();
+                hpOurProgramsTitleInput.value = data.title || '';
+                hpOurProgramsIntroInput.value = data.introParagraph || '';
+                showMessage(hpOurProgramsMetaStatusDiv, "Content loaded.", true);
+            } else {
+                showMessage(hpOurProgramsMetaStatusDiv, "No existing content. Add new content.", false);
+                hpOurProgramsTitleInput.value = 'Our Programs'; // Default placeholder
+                hpOurProgramsIntroInput.value = '';
+            }
+        } catch (error) {
+            console.error("Error loading Homepage 'Our Programs' meta:", error);
+            showMessage(hpOurProgramsMetaStatusDiv, "Error loading content: " + error.message, false);
+        }
+    }
+
+    if (hpOurProgramsMetaForm) {
+        hpOurProgramsMetaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth.currentUser) {
+                showMessage(hpOurProgramsMetaStatusDiv, "You must be logged in to save.", false);
+                return;
+            }
+
+            const title = hpOurProgramsTitleInput.value.trim();
+            const introParagraph = hpOurProgramsIntroInput.value.trim();
+
+            if (!title || !introParagraph) {
+                showMessage(hpOurProgramsMetaStatusDiv, "Please fill in both title and intro paragraph.", false);
+                return;
+            }
+
+            if(hpOurProgramsMetaSaveButton) hpOurProgramsMetaSaveButton.disabled = true;
+
+            const data = {
+                title,
+                introParagraph,
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await hpOurProgramsMetaRef.set(data, { merge: true });
+                showMessage(hpOurProgramsMetaStatusDiv, "Homepage 'Our Programs' section details saved successfully!", true);
+            } catch (error) {
+                console.error("Error saving Homepage 'Our Programs' meta:", error);
+                showMessage(hpOurProgramsMetaStatusDiv, "Error saving content: " + error.message, false);
+            } finally {
+                if(hpOurProgramsMetaSaveButton) hpOurProgramsMetaSaveButton.disabled = false;
+            }
         });
     }
 
@@ -982,6 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadAccreditations(); // Load accreditations
             loadGlobalConnections(); // Load global connections
             loadCentersList(); // Load centers list
+            // loadHpOurProgramsMeta(); // Already called in the primary auth check
         } else {
             // ... (redirect logic)
         }
@@ -997,6 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const centerImageUrlInput = document.getElementById('center-image-url');
     const centerDescriptionInput = document.getElementById('center-description');
     const centerPageUrlInput = document.getElementById('center-page-url');
+    const centerMapEmbedCodeInput = document.getElementById('center-map-embed-code');
     const centerOrderInput = document.getElementById('center-order');
     const centerSaveButton = document.getElementById('center-save-button');
     const centerCancelEditButton = document.getElementById('center-cancel-edit-button');
@@ -1076,10 +1143,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const imageUrl = centerImageUrlInput.value.trim();
             const description = centerDescriptionInput.value.trim();
             const pageUrl = centerPageUrlInput.value.trim();
+            const mapEmbedCode = centerMapEmbedCodeInput.value.trim(); // Get map embed code
             const order = parseInt(centerOrderInput.value, 10);
 
+            // Map embed code is optional, so not included in this validation check
             if (!name || !imageUrl || !description || !pageUrl || isNaN(order)) {
-                showCenterMessage("Please fill in all fields: Name, Image URL, Description, Page URL, and Order.");
+                showCenterMessage("Please fill in all fields: Name, Image URL, Description, Page URL, and Order. Map Embed Code is optional.");
                 return;
             }
 
@@ -1094,6 +1163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 imageUrl,
                 description,
                 pageUrl,
+                mapEmbedCode, // Add to data
                 order,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
@@ -1144,6 +1214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(centerImageUrlInput) centerImageUrlInput.value = item.imageUrl || '';
                         if(centerDescriptionInput) centerDescriptionInput.value = item.description || '';
                         if(centerPageUrlInput) centerPageUrlInput.value = item.pageUrl || '';
+                        if(centerMapEmbedCodeInput) centerMapEmbedCodeInput.value = item.mapEmbedCode || ''; // Populate map embed code
                         if(centerOrderInput) centerOrderInput.value = item.order || 1;
 
                         if(centerSaveButton) centerSaveButton.textContent = 'Update Center';
