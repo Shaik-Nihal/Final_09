@@ -48,6 +48,9 @@
     <!-- JS Scripts (Deferred for performance) -->
     <script src="/scripts/main.js" defer></script>
     <script src="/scripts/whatsapp.js" defer></script>
+    <script src="/frontend/scripts/accreditations-loader.js" defer></script>
+    <script src="/frontend/scripts/global-connections-loader.js" defer></script>
+    <script src="/frontend/scripts/homepage-centers-loader.js" defer></script>
 
     <!-- Google Tag Manager -->
     <script>
@@ -525,25 +528,8 @@
     <section class="our-centres">
         <div class="container">
             <h2>Our Centres</h2>
-            <div class="centre-cards">
-                <div class="centre-card">
-                    <img src="https://images.pexels.com/photos/668298/pexels-photo-668298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Chennai Centre" loading="lazy">
-                    <h3>Chennai</h3>
-                    <p>Our flagship centre with state-of-the-art facilities</p>
-                    <a href="centres/chennai" class="btn">View Details</a>
-                </div>
-                <div class="centre-card">
-                    <img src="https://images.pexels.com/photos/1692693/pexels-photo-1692693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Coimbatore Centre" loading="lazy">
-                    <h3>Coimbatore</h3>
-                    <p>Modern campus integrated with Apollo Hospital</p>
-                    <a href="centres/coimbatore" class="btn">View Details</a>
-                </div>
-                <div class="centre-card">
-                    <img src="https://images.pexels.com/photos/127873/pexels-photo-127873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Chittoor Centre" loading="lazy">
-                    <h3>Chittoor</h3>
-                    <p>Newest facility with advanced simulation labs</p>
-                    <a href="centres/chittoor" class="btn">View Details</a>
-                </div>
+            <div id="dynamic-centre-cards-homepage" class="centre-cards">
+                <!-- Center cards will be dynamically loaded here -->
             </div>
         </div>
     </section>
@@ -555,27 +541,8 @@
                 <h2>Accreditations & Affiliations</h2>
                 <p>Our programs are recognized by leading national and international accreditation bodies</p>
             </div>
-            <div class="accreditation-logos">
-                <div class="logo-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/4/4e/UGC_India_Logo.png" alt="UGC Logo" height="150px" width="150px" loading="lazy">
-                    <span><b>University Grants Commission</b></span>
-                </div>
-                <div class="logo-item">
-                    <img src="https://www.brightsight.com/files/Photos/pci_logo-transparent-background.png" alt="PCI Logo" height="500px" width="500px" loading="lazy">
-                    <span><b>PCI Certified</b></span>
-                </div>
-                <div class="logo-item">
-                    <img src="https://i0.wp.com/sjbit.edu.in/wp-content/uploads/2021/07/AICTE-Logo-250x250-1.png?ssl=1" alt="AICTE Logo" loading="lazy">
-                    <span>All India Council for Technical Education</span>
-                </div>
-                <div class="logo-item">
-                    <img src="https://png.pngtree.com/png-vector/20220905/ourmid/pngtree-iso-14001-certified-company-logo-badge-png-image_6137639.png" alt="ISO Logo" loading="lazy">
-                    <span>ISO 9001:2015 Certified</span>
-                </div>
-                <div class="logo-item">
-                    <img src="https://images.seeklogo.com/logo-png/52/2/nabh-accredited-logo-png_seeklogo-523012.png" alt="NABH Logo" loading="lazy">
-                    <span>National Accreditation Board for Hospitals</span>
-                </div>
+            <div id="dynamic-accreditation-logos" class="accreditation-logos">
+                <!-- Accreditations will be dynamically loaded here -->
             </div>
         </div>
     </section>
@@ -587,27 +554,8 @@
                 <h2>Global Connections</h2>
                 <p>Our international partnerships enhance learning opportunities and global exposure</p>
             </div>
-            <div class="partnerships-grid">
-                <div class="partnership-card">
-                    <img src="https://meded.hms.harvard.edu/sites/hwpi.harvard.edu/files/styles/os_files_xxlarge/public/hms-med-ed/files/2gordon_hall.jpg?m=1692111162&itok=ldieXKfu" alt="Harvard Medical School" loading="lazy">
-                    <h3>Harvard Medical School</h3>
-                    <p>Faculty exchange program and research collaboration</p>
-                </div>
-                <div class="partnership-card">
-                    <img src="https://i.ytimg.com/vi/KnNaPzR-AEE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLApDHrOgZbCd9o6NjlaF_wwR22uKQ" alt="Johns Hopkins Medicine" loading="lazy">
-                    <h3>Johns Hopkins Medicine</h3>
-                    <p>Clinical training and knowledge exchange</p>
-                </div>
-                <div class="partnership-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_IX-YI-rpcM5TJjLm0ORwH67Zak0oPnrnOg&s" alt="University of Leicester" loading="lazy">
-                    <h3>University of Leicester</h3>
-                    <p>Academic partnership and student exchange</p>
-                </div>
-                <div class="partnership-card">
-                    <img src="https://images.shiksha.com/mediadata/images/1534404571php1jqazy.jpeg" alt="Birmingham University" loading="lazy">
-                    <h3>Birmingham University</h3>
-                    <p>Healthcare innovation and technology transfer</p>
-                </div>
+            <div id="dynamic-partnerships-grid" class="partnerships-grid">
+                <!-- Global Connections will be dynamically loaded here -->
             </div>
         </div>
     </section>

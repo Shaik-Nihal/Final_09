@@ -81,6 +81,36 @@ The CMS uses Google Firestore to store data. Here's a brief overview of the coll
         *   `createdAt` (timestamp): Automatically added when a card is created.
         *   `updatedAt` (timestamp): Automatically updated when a card is modified.
 
+    *   **`accreditations_homepage`**:
+        *   **Purpose:** Stores accreditation and affiliation items for display on the homepage.
+        *   **Fields for each document (accreditation item):**
+            *   `name` (string): Name of the accrediting or affiliating body (e.g., "University Grants Commission").
+            *   `logoUrl` (string): URL to the logo image of the body.
+            *   `order` (number): A number determining the display sequence of the logo.
+            *   `createdAt` (timestamp): Automatically added when an item is created.
+            *   `updatedAt` (timestamp): Automatically updated when an item is modified.
+
+    *   **`global_connections_homepage`**:
+        *   **Purpose:** Stores global connection/partnership items for display on the homepage.
+        *   **Fields for each document (connection item):**
+            *   `name` (string): Name of the partner institution (e.g., "Harvard Medical School").
+            *   `description` (string): A brief description of the partnership.
+            *   `imageUrl` (string): URL to an image representing the partner.
+            *   `order` (number): A number determining the display sequence.
+            *   `createdAt` (timestamp): Automatically added when an item is created.
+            *   `updatedAt` (timestamp): Automatically updated when an item is modified.
+
+    *   **`centers_list`**:
+        *   **Purpose:** Stores information about the different Apollo Knowledge centers.
+        *   **Fields for each document (center item):**
+            *   `name` (string): Name of the center (e.g., "Chennai").
+            *   `imageUrl` (string): URL for the center's representative image.
+            *   `description` (string): A short description of the center.
+            *   `pageUrl` (string): Relative URL to the center's specific page (e.g., "centres/chennai/" or "centres/chennai/index.html").
+            *   `order` (number): A number determining the display sequence.
+            *   `createdAt` (timestamp): Automatically added when an item is created.
+            *   `updatedAt` (timestamp): Automatically updated when an item is modified.
+
 ## 4. Admin Panel Usage Guide
 
 ### Accessing the Admin Panel
@@ -100,6 +130,9 @@ Upon successful login, you will be redirected to the Admin Dashboard. The dashbo
 *   **Hero Section Slides:** For managing the slides on the homepage hero carousel.
 *   **Programs Page Hero:** For editing the title and paragraph of the hero section on the "Our Programs" page.
 *   **Program Cards:** For managing the individual program cards.
+*   **Accreditations & Affiliations Management:** For managing the logos and names of accrediting bodies displayed on the homepage.
+*   **Global Connections Management:** For managing the international partnership cards on the homepage.
+*   **Centers List Management:** For managing the center cards displayed on the homepage and the main centers listing page.
 
 There is also a **"Logout"** button in the header to securely log out of the admin panel.
 
@@ -173,6 +206,88 @@ This section allows you to control the program cards displayed on your website.
     1.  Click **"Delete"** next to the card in the list.
     2.  Confirm the deletion when prompted. The card will be removed. (Note: The image itself, being hosted externally, will not be deleted by this action).
 *   **Importance of `Order` Field:** Program cards are displayed based on this number in ascending order.
+
+### Managing Accreditations & Affiliations
+
+This section allows you to manage the accreditations and affiliations logos and names displayed on the homepage.
+
+*   **Viewing Existing Accreditations:**
+    *   On the right side of this section, you'll see a list titled "Existing Accreditations".
+    *   Each item in the list shows its name, display order, a link to the logo, and a small preview of the logo image.
+*   **Adding a New Accreditation Item:**
+    1.  Use the form on the left side, titled "Add New Accreditation".
+    2.  **Name:** Enter the name of the accrediting or affiliating body (e.g., "University Grants Commission").
+    3.  **Logo URL:**
+        *   Upload the logo image to a third-party image hosting service.
+        *   Copy the direct link (URL) to the uploaded image. This URL should end with an image extension (e.g., `.png`, `.svg`, `.jpg`).
+        *   Paste this URL into the "Logo URL" text field.
+    4.  **Order:** Enter a number. Items will be displayed in ascending order.
+    5.  Click **"Save Accreditation"**. The new item will appear in the "Existing Accreditations" list.
+*   **Editing an Existing Accreditation Item:**
+    1.  In the "Existing Accreditations" list, find the item you want to edit.
+    2.  Click the **"Edit"** button next to it.
+    3.  The form on the left will populate with the item's current information, and its title will change to "Edit Accreditation".
+    4.  Modify any fields as needed. To change the logo, replace the URL in the "Logo URL" field.
+    5.  Click **"Update Accreditation"**. The changes will be saved, and the list will refresh.
+    6.  A "Cancel Edit" button will appear to clear the form and revert to "Add New" mode.
+*   **Deleting an Accreditation Item:**
+    1.  In the "Existing Accreditations" list, click the **"Delete"** button next to the item.
+    2.  A confirmation prompt will appear. Click "OK" to confirm.
+    3.  The item will be removed from the list and the website. (The externally hosted logo image will not be deleted).
+*   **Frontend Display:** These accreditations are loaded onto the homepage by the `frontend/scripts/accreditations-loader.js` script.
+
+### Managing Global Connections
+
+This section allows you to manage the global connections or international partnership cards displayed on the homepage.
+
+*   **Viewing Existing Global Connections:**
+    *   On the right side, a list titled "Existing Global Connections" shows all current items with their name, a snippet of the description, display order, and image thumbnail.
+*   **Adding a New Global Connection:**
+    1.  Use the form on the left, "Add New Global Connection".
+    2.  **Name:** The name of the partner institution (e.g., "Harvard Medical School").
+    3.  **Description:** A brief description of the partnership (e.g., "Faculty exchange program and research collaboration").
+    4.  **Image URL:**
+        *   Upload an image representing the partner to a third-party image hosting service.
+        *   Copy the direct link (URL) to the uploaded image.
+        *   Paste this URL into the "Image URL" text field.
+    5.  **Order:** Enter a number. Items will be displayed in ascending order.
+    6.  Click **"Save Connection"**.
+*   **Editing an Existing Global Connection:**
+    1.  In the "Existing Global Connections" list, click **"Edit"** next to the item.
+    2.  The form populates with the item's details. The title changes to "Edit Global Connection".
+    3.  Modify fields as needed. To change the image, replace the URL in the "Image URL" field.
+    4.  Click **"Update Connection"**.
+    5.  A "Cancel Edit" button is available to reset the form.
+*   **Deleting a Global Connection:**
+    1.  Click **"Delete"** next to the item in the list.
+    2.  Confirm the deletion. The item will be removed. (The externally hosted image will not be deleted).
+*   **Frontend Display:** These global connections are loaded onto the homepage by the `frontend/scripts/global-connections-loader.js` script.
+
+### Managing Centers List
+
+This section allows you to manage the center cards that appear on the homepage and the dedicated "Our Centres" listing page (`centres/index.html`).
+
+*   **Viewing Existing Centers:**
+    *   On the right side, a list titled "Existing Centers" shows all current center items with their name, a snippet of the description, page URL, display order, and image thumbnail.
+*   **Adding a New Center:**
+    1.  Use the form on the left, "Add New Center".
+    2.  **Center Name:** The name of the center (e.g., "Chennai Campus").
+    3.  **Image URL:** URL for the center's image.
+    4.  **Description:** A short description of the center.
+    5.  **Page URL:** The relative URL to the center's specific detail page (e.g., `centres/chennai/` or `centres/chennai/index.html`). This link will be used for the "View Details" button.
+    6.  **Order:** A number determining the display sequence.
+    7.  Click **"Save Center"**.
+*   **Editing an Existing Center:**
+    1.  In the "Existing Centers" list, click **"Edit"** next to the item.
+    2.  The form populates with the center's details.
+    3.  Modify fields as needed.
+    4.  Click **"Update Center"**.
+*   **Deleting a Center:**
+    1.  Click **"Delete"** next to the item in the list.
+    2.  Confirm the deletion.
+*   **Frontend Display:**
+    *   Homepage: Loaded by `frontend/scripts/homepage-centers-loader.js`.
+    *   Centers Listing Page (`centres/index.html`): Loaded by `frontend/scripts/centers-page-loader.js`.
 
 ### Image Handling via URLs
 
@@ -472,6 +587,24 @@ You need to allow public read access to your new collection so the frontend can 
         match /about_us_content/{docId} {
           allow read: if true;
           allow write: if request.auth != null; // Only authenticated users (admins) can write
+        }
+
+        // Rule for the accreditations_homepage collection
+        match /accreditations_homepage/{accreditationId} {
+          allow read: if true;
+          allow write: if request.auth != null;
+        }
+
+        // Rule for the global_connections_homepage collection
+        match /global_connections_homepage/{gcId} {
+          allow read: if true;
+          allow write: if request.auth != null;
+        }
+
+        // Rule for the centers_list collection
+        match /centers_list/{centerId} {
+          allow read: if true;
+          allow write: if request.auth != null;
         }
       }
     }
